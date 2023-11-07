@@ -7,4 +7,4 @@ Specifically, commerical use is not allowed. If you want to create a commerical 
 
 You are free to use anything in this repository for your own personal use, or to give away to others.
 
-If you make improvements to something, I would be grateful if you would send them to me the changes for potentical inclusion but you are under no obligation to do so. However, you are bound by the non-commercial restrictions in this license for any derivitive works you create (i.e. you may not sell them without obtaining a commercial license from me).
+If you make improvements to something, I would be grateful if you would send them to me for potentical inclusion but you are under no obligation to do so. However, you are bound by the non-commercial restrictions in this license for any derivitive works you create (i.e. you may not sell them without obtaining a commercial license from me).
