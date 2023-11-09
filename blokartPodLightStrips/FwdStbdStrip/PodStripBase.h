@@ -1,0 +1,1 @@
+../PodStripBase.h
