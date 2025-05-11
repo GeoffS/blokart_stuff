@@ -38,12 +38,12 @@ clockHolderZEdgeDia = clockZEdgeDia + 2*clockHolderWallThickness;
 clockHolderCZ = 2;
 clockHolderX = clockX + 2*clockHolderWallThickness;
 
-displayPosTopY = -22.5;
+displayPosTopY = -22.5 + 0.8;
 displayY = 29.5;
-displayX = 59;
+displayX = 59-1;
 displayCtrX = 0;
 displayCtrY = displayPosTopY + displayY/2;
-displayCornerDia = 2*6.4;
+displayCornerDia = 2*6.8;
 
 leftExteriorEdgeX = -(clockX/2 + clockHolderWallThickness);
 bottomExteriorEdgeY = clockY/2 + clockHolderWallThickness;
@@ -105,7 +105,7 @@ module button(dia, x)
 {
 	translate([leftExteriorEdgeX + x, buttonPosY, 0]) 
 	{
-		d = dia + 4;
+		d = dia + 2;
 		translate([0,0,-10]) cylinder(d=d, h=100);
 		translate([0,0,-25+d/2+0.8]) cylinder(d1=50, d2=0, h=25);
 	}
@@ -125,7 +125,7 @@ module clip(d=0)
 {
 	// tc([-200, -400-d, -10], 400);
 	// tc([-400-d, -200, -10], 400);
-	tc([-200, -400-d+buttonPosY, -10], 400);
+	// tc([-200, -400-d+buttonPosY, -10], 400);
 }
 
 if(developmentRender)
