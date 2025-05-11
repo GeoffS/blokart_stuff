@@ -12,6 +12,16 @@ clockZ = 21.55;
 clockX = 72.5;
 clockY = 66.4;
 
+leftButtonX = 16.12;
+middleButtonX = 35.38;
+rightButtonX = 55;
+
+buttonsY = 12.5;
+
+leftButtonDia = 11;
+middleButtonDia = leftButtonDia;
+rightButtonDia = 13;
+
 clockXYCornerDia = 2 * 21;
 clockZEdgeDia = 2 * 4.3;
 
@@ -21,6 +31,9 @@ clockHolderWallThickness = 4 * wallThickness - 0.1; // 0.1? No idea, makes the s
 clockHolderXYCornerDia = clockXYCornerDia + 2*clockHolderWallThickness;
 clockHolderZEdgeDia = clockZEdgeDia + 2*clockHolderWallThickness;
 clockHolderCZ = 2;
+
+leftExteriorEdgeX = -(clockX/2 + clockHolderWallThickness);
+bottomExteriorEdgeY = clockY/2 + clockHolderWallThickness;
 
 echo(str("clockHolderWallThickness = ", clockHolderWallThickness));
 
@@ -40,7 +53,17 @@ module holderFace()
 			insideLayer();
 			translate([0,0,20]) insideLayer();
 		}
+
+		// Front opening:
+		button(leftButtonDia, leftButtonX);
+		button(middleButtonDia, middleButtonX);
+		button(rightButtonDia, rightButtonX);
 	}
+}
+
+module button(dia, x)
+{
+	translate([leftExteriorEdgeX + x, bottomExteriorEdgeY - buttonsY, -10]) cylinder(d=dia+6, h=100);
 }
 
 module cornerXform()
@@ -55,7 +78,7 @@ module insideLayer()
 
 module clip(d=0)
 {
-	tc([-200, -400-d, -10], 400);
+	// tc([-200, -400-d, -10], 400);
 }
 
 if(developmentRender)
