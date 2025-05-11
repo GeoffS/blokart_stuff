@@ -5,6 +5,8 @@ include <../../OpenSCAD_Lib/MakeInclude.scad>
 include <../../OpenSCAD_Lib/torus.scad>
 include <../../OpenSCAD_Lib/chamferedCylinders.scad>
 
+layerThickness = 0.2;
+wallThickness = 0.42;
 
 clockZ = 21.55;
 clockX = 72.5;
@@ -15,10 +17,12 @@ clockZEdgeDia = 2 * 4.3;
 
 clockFaceSplitZ = 7.6;
 
-clockHolderWallThickness = 1.4;
+clockHolderWallThickness = 4 * wallThickness - 0.1; // 0.1? No idea, makes the slicer happy.
 clockHolderXYCornerDia = clockXYCornerDia + 2*clockHolderWallThickness;
 clockHolderZEdgeDia = clockZEdgeDia + 2*clockHolderWallThickness;
 clockHolderCZ = 2;
+
+echo(str("clockHolderWallThickness = ", clockHolderWallThickness));
 
 cornerX = clockX - clockHolderXYCornerDia;
 cornerY = clockY - clockHolderXYCornerDia;
@@ -51,7 +55,7 @@ module insideLayer()
 
 module clip(d=0)
 {
-	// tc([-200, -400-d, -10], 400);
+	tc([-200, -400-d, -10], 400);
 }
 
 if(developmentRender)
