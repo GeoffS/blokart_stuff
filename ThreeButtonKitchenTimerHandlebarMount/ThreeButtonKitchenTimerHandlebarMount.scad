@@ -32,7 +32,7 @@ clockZEdgeDia = 2 * 4.3;
 clockFaceSplitZ = 7.6;
 
 clockHolderWallThickness = 4 * wallThickness - 0.1; // 0.1? No idea, makes the slicer happy.
-clockHolderFrontThickness = clockHolderWallThickness + 2;
+clockHolderFrontThickness = clockHolderWallThickness + 1.5;
 clockHolderXYCornerDia = clockXYCornerDia + 2*clockHolderWallThickness;
 clockHolderZEdgeDia = clockZEdgeDia + 2*clockHolderWallThickness;
 clockHolderCZ = 2;
@@ -61,19 +61,23 @@ module holderFace()
 		translate([0,0,clockFaceSplitZ]) hull() cornerXform() mirror([0,0,1]) simpleChamferedCylinder(d=clockHolderXYCornerDia, h=clockFaceSplitZ, cz=clockHolderCZ);
 
 		// Interior:
-		hull() 
+		#hull() 
 		{
-			insideLayer();
-			translate([0,0,20]) insideLayer();
+			mainInside();
 
 			// Raised center of clock front panel:
-			difference()
+			intersection()
 			{
-				frontPanelCenterDia = min(clockX, clockY) * 3;
+				frontPanelCenterDia = 50; //min(clockX, clockY) * 3;
+				// frontPanelCurveCtrY = -8;
+				frontPanelCurveZ = clockHolderWallThickness + frontPanelCenterDia/2;
+				union()
+				{
+					tsp([0, -8, frontPanelCurveZ], d=frontPanelCenterDia);
+					doubleX() tsp([20, 0, frontPanelCurveZ], d=frontPanelCenterDia);
+				}
 
-				tsp([0,0,clockHolderWallThickness+frontPanelCenterDia/2], d=frontPanelCenterDia);
-
-				tcu([-200, -200, clockFaceSplitZ], 400);
+				hull() mainInside(topZ=20, bottomZ=-20);
 			}
 		}
 
@@ -116,6 +120,12 @@ module cornerXform()
 	doubleX() doubleY() translate([cornerX, cornerY, 0]) children();
 }
 
+module mainInside(topZ=20, bottomZ=0)
+{
+	translate([0,0,bottomZ]) insideLayer();
+	translate([0,0,topZ]) insideLayer();
+}
+
 module insideLayer()
 {
 	cornerXform() translate([0,0,clockHolderFrontThickness + clockZEdgeDia/2]) torus3a(outsideDiameter=clockXYCornerDia, circleDiameter=clockZEdgeDia);
@@ -124,7 +134,7 @@ module insideLayer()
 module clip(d=0)
 {
 	// tc([-200, -400-d, -10], 400);
-	// tc([-400-d, -200, -10], 400);
+	tc([-400-d, -200, -10], 400);
 	// tc([-200, -400-d+buttonPosY, -10], 400);
 }
 
