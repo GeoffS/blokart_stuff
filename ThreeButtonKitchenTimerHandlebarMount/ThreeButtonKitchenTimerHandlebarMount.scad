@@ -8,13 +8,13 @@ include <../../OpenSCAD_Lib/chamferedCylinders.scad>
 layerThickness = 0.2;
 wallThickness = 0.42;
 
-clockX = 72.5;
-clockY = 66.4;
+clockX = 72.5-0.3;
+clockY = 66.4-0.3;
 clockZ = 21.55;
 
 leftButtonX = 16.12 + 2.5;
-middleButtonX = 35.38 + 1.6;
-rightButtonX = 55 + 1.6;
+middleButtonX = 35.38 + 1.6 - 0.3;
+rightButtonX = 55 + 1.6 - 0.1;
 
 buttonsY = 12.5 + 2.45;
 
@@ -29,10 +29,10 @@ powerSwitchPosZ = 5.3;
 clockXYCornerDia = 2 * 21;
 clockZEdgeDia = 2 * 4.3;
 
-clockFaceSplitZ = 7.6;
 
 clockHolderWallThickness = 4 * wallThickness - 0.1; // 0.1? No idea, makes the slicer happy.
 clockHolderFrontThickness = clockHolderWallThickness + 1.5;
+clockFaceSplitZ = 5.6 + clockHolderFrontThickness;
 clockHolderXYCornerDia = clockXYCornerDia + 2*clockHolderWallThickness;
 clockHolderZEdgeDia = clockZEdgeDia + 2*clockHolderWallThickness;
 clockHolderCZ = 2;
@@ -70,10 +70,14 @@ module holderFace()
 			{
 				frontPanelCenterDia = 50;
 				frontPanelCurveZ = clockHolderWallThickness + frontPanelCenterDia/2;
-				union()
+				difference()
 				{
-					tsp([0, -8, frontPanelCurveZ], d=frontPanelCenterDia);
-					doubleX() tsp([20, 0, frontPanelCurveZ], d=frontPanelCenterDia);
+					union()
+					{
+						tsp([0, -8, frontPanelCurveZ], d=frontPanelCenterDia);
+						doubleX() tsp([24, 0, frontPanelCurveZ], d=frontPanelCenterDia);
+					}
+					tcu([-200, -200, clockHolderFrontThickness], 400);
 				}
 
 				hull() mainInside(topZ=20, bottomZ=-20);
@@ -88,7 +92,7 @@ module holderFace()
 
 		// Power switch cutout:
 		switchY = (powerSwitchPosTopY - powerSwitchPosBottomY);
-		tcu([0, bottomExteriorEdgeY - powerSwitchPosTopY, powerSwitchPosZ-1], [100, switchY, 20]);
+		//tcu([0, bottomExteriorEdgeY - powerSwitchPosTopY, powerSwitchPosZ-1], [100, switchY, 20]);
 	}
 }
 
