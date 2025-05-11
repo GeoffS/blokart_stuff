@@ -61,7 +61,7 @@ module holderFace()
 		translate([0,0,clockFaceSplitZ]) hull() cornerXform() mirror([0,0,1]) simpleChamferedCylinder(d=clockHolderXYCornerDia, h=clockFaceSplitZ, cz=clockHolderCZ);
 
 		// Interior:
-		#hull() 
+		hull() 
 		{
 			mainInside();
 
@@ -134,7 +134,7 @@ module insideLayer()
 module clip(d=0)
 {
 	// tc([-200, -400-d, -10], 400);
-	tc([-400-d, -200, -10], 400);
+	// tc([-400-d, -200, -10], 400);
 	// tc([-200, -400-d+buttonPosY, -10], 400);
 }
 
