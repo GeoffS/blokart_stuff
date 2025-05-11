@@ -8,9 +8,9 @@ include <../../OpenSCAD_Lib/chamferedCylinders.scad>
 layerThickness = 0.2;
 wallThickness = 0.42;
 
+clockX = 73.0;
+clockY = 66.9;
 clockZ = 21.55;
-clockX = 73.5;
-clockY = 67.4;
 
 leftButtonX = 16.12 + 2.5;
 middleButtonX = 35.38 + 1.6;
@@ -32,6 +32,7 @@ clockZEdgeDia = 2 * 4.3;
 clockFaceSplitZ = 7.6;
 
 clockHolderWallThickness = 4 * wallThickness - 0.1; // 0.1? No idea, makes the slicer happy.
+clockHolderFrontThickness = clockHolderWallThickness + 2;
 clockHolderXYCornerDia = clockXYCornerDia + 2*clockHolderWallThickness;
 clockHolderZEdgeDia = clockZEdgeDia + 2*clockHolderWallThickness;
 clockHolderCZ = 2;
@@ -64,6 +65,16 @@ module holderFace()
 		{
 			insideLayer();
 			translate([0,0,20]) insideLayer();
+
+			// Raised center of clock front panel:
+			difference()
+			{
+				frontPanelCenterDia = min(clockX, clockY) * 3;
+
+				tsp([0,0,clockHolderWallThickness+frontPanelCenterDia/2], d=frontPanelCenterDia);
+
+				tcu([-200, -200, clockFaceSplitZ], 400);
+			}
 		}
 
 		// Front opening:
@@ -88,9 +99,16 @@ module displayOpening()
 	} 
 }
 
+buttonPosY = bottomExteriorEdgeY - buttonsY;
+
 module button(dia, x)
 {
-	translate([leftExteriorEdgeX + x, bottomExteriorEdgeY - buttonsY, -10]) cylinder(d=dia+4, h=100);
+	translate([leftExteriorEdgeX + x, buttonPosY, 0]) 
+	{
+		d = dia + 4;
+		translate([0,0,-10]) cylinder(d=d, h=100);
+		translate([0,0,-25+d/2+0.8]) cylinder(d1=50, d2=0, h=25);
+	}
 }
 
 module cornerXform()
@@ -100,12 +118,14 @@ module cornerXform()
 
 module insideLayer()
 {
-	cornerXform() translate([0,0,clockHolderWallThickness+clockZEdgeDia/2]) torus3a(outsideDiameter=clockXYCornerDia, circleDiameter=clockZEdgeDia);
+	cornerXform() translate([0,0,clockHolderFrontThickness + clockZEdgeDia/2]) torus3a(outsideDiameter=clockXYCornerDia, circleDiameter=clockZEdgeDia);
 }
 
 module clip(d=0)
 {
 	// tc([-200, -400-d, -10], 400);
+	// tc([-400-d, -200, -10], 400);
+	tc([-200, -400-d+buttonPosY, -10], 400);
 }
 
 if(developmentRender)
