@@ -24,8 +24,8 @@ clockHolderCZ = 2;
 
 echo(str("clockHolderWallThickness = ", clockHolderWallThickness));
 
-cornerX = clockX - clockHolderXYCornerDia;
-cornerY = clockY - clockHolderXYCornerDia;
+cornerX = (clockX - clockXYCornerDia)/2;
+cornerY = (clockY - clockXYCornerDia)/2;
 
 module holderFace()
 {
