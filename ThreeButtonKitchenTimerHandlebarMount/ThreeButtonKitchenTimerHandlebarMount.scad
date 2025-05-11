@@ -35,6 +35,14 @@ clockHolderWallThickness = 4 * wallThickness - 0.1; // 0.1? No idea, makes the s
 clockHolderXYCornerDia = clockXYCornerDia + 2*clockHolderWallThickness;
 clockHolderZEdgeDia = clockZEdgeDia + 2*clockHolderWallThickness;
 clockHolderCZ = 2;
+clockHolderX = clockX + 2*clockHolderWallThickness;
+
+displayPosTopY = -22.5;
+displayY = 29.5;
+displayX = 59;
+displayCtrX = 0;
+displayCtrY = displayPosTopY + displayY/2;
+displayCornerDia = 2*6.4;
 
 leftExteriorEdgeX = -(clockX/2 + clockHolderWallThickness);
 bottomExteriorEdgeY = clockY/2 + clockHolderWallThickness;
@@ -62,11 +70,22 @@ module holderFace()
 		button(leftButtonDia, leftButtonX);
 		button(middleButtonDia, middleButtonX);
 		button(rightButtonDia, rightButtonX);
+		displayOpening();
 
 		// Power switch cutout:
 		switchY = (powerSwitchPosTopY - powerSwitchPosBottomY);
 		tcu([0, bottomExteriorEdgeY - powerSwitchPosTopY, powerSwitchPosZ-1], [100, switchY, 20]);
 	}
+}
+
+module displayOpening()
+{
+	
+	translate([displayCtrX, displayCtrY, 0])  hull()
+	{
+		extraXY = 2;
+		doubleX() doubleY() tcy([displayX/2-displayCornerDia/2+extraXY, displayY/2-displayCornerDia/2+extraXY, -10], d=displayCornerDia, h=100);
+	} 
 }
 
 module button(dia, x)
