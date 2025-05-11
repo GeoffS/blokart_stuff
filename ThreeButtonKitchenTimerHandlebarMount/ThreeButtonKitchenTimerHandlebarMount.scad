@@ -68,8 +68,7 @@ module holderFace()
 			// Raised center of clock front panel:
 			intersection()
 			{
-				frontPanelCenterDia = 50; //min(clockX, clockY) * 3;
-				// frontPanelCurveCtrY = -8;
+				frontPanelCenterDia = 50;
 				frontPanelCurveZ = clockHolderWallThickness + frontPanelCenterDia/2;
 				union()
 				{
