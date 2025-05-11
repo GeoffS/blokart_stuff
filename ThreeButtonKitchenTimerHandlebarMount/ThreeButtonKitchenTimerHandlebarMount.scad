@@ -22,6 +22,10 @@ leftButtonDia = 11;
 middleButtonDia = leftButtonDia;
 rightButtonDia = 13;
 
+powerSwitchPosBottomY = 24.5;
+powerSwitchPosTopY = 32.8;
+powerSwitchPosZ = 5.3;
+
 clockXYCornerDia = 2 * 21;
 clockZEdgeDia = 2 * 4.3;
 
@@ -58,6 +62,10 @@ module holderFace()
 		button(leftButtonDia, leftButtonX);
 		button(middleButtonDia, middleButtonX);
 		button(rightButtonDia, rightButtonX);
+
+		// Power switch cutout:
+		switchY = (powerSwitchPosTopY - powerSwitchPosBottomY);
+		tcu([0, bottomExteriorEdgeY - powerSwitchPosTopY, powerSwitchPosZ-1], [100, switchY, 20]);
 	}
 }
 
