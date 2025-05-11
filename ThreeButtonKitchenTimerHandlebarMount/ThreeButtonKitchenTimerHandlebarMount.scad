@@ -12,18 +12,18 @@ clockZ = 21.55;
 clockX = 73.5;
 clockY = 67.4;
 
-leftButtonX = 16.12;
-middleButtonX = 35.38;
-rightButtonX = 55;
+leftButtonX = 16.12 + 2.5;
+middleButtonX = 35.38 + 1.6;
+rightButtonX = 55 + 1.6;
 
-buttonsY = 12.5;
+buttonsY = 12.5 + 2.45;
 
 leftButtonDia = 11;
 middleButtonDia = leftButtonDia;
 rightButtonDia = 13;
 
-powerSwitchPosBottomY = 24.5;
-powerSwitchPosTopY = 32.8;
+powerSwitchPosBottomY = 24.5 + 1.6 ;
+powerSwitchPosTopY = 32.8 + 1.6;
 powerSwitchPosZ = 5.3;
 
 clockXYCornerDia = 2 * 21;
@@ -71,7 +71,7 @@ module holderFace()
 
 module button(dia, x)
 {
-	translate([leftExteriorEdgeX + x, bottomExteriorEdgeY - buttonsY, -10]) cylinder(d=dia+6, h=100);
+	translate([leftExteriorEdgeX + x, bottomExteriorEdgeY - buttonsY, -10]) cylinder(d=dia+4, h=100);
 }
 
 module cornerXform()
