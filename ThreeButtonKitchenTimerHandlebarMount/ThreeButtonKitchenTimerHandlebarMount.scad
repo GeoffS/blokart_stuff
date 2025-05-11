@@ -107,7 +107,7 @@ module button(dia, x)
 	{
 		d = dia + 2;
 		translate([0,0,-10]) cylinder(d=d, h=100);
-		translate([0,0,-25+d/2+0.8]) cylinder(d1=50, d2=0, h=25);
+		translate([0,0,-25+d/2+1.7]) cylinder(d1=50, d2=0, h=25);
 	}
 }
 
