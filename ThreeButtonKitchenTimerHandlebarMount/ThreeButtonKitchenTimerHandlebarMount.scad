@@ -9,8 +9,8 @@ layerThickness = 0.2;
 wallThickness = 0.42;
 
 clockZ = 21.55;
-clockX = 72.5;
-clockY = 66.4;
+clockX = 73.5;
+clockY = 67.4;
 
 leftButtonX = 16.12;
 middleButtonX = 35.38;
