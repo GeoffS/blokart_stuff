@@ -89,6 +89,18 @@ module holderFace()
 		button(middleButtonDia, middleButtonX);
 		button(rightButtonDia, rightButtonX);
 		displayOpening();
+		// Chamfer:
+		hull()
+		{
+			cz = 1;
+			displayOpening(z=cz-0.1, h=0.1);
+			minkowski()
+			{
+				displayOpening(z=-0.1, h=0.1);
+				cylinder(d=2*cz, h=nothing);
+			}
+		}
+		
 
 		// Power switch cutout:
 		switchY = (powerSwitchPosTopY - powerSwitchPosBottomY);
@@ -96,13 +108,13 @@ module holderFace()
 	}
 }
 
-module displayOpening()
+module displayOpening(z=-10, h=100)
 {
 	
 	translate([displayCtrX, displayCtrY, 0])  hull()
 	{
 		extraXY = 2;
-		doubleX() doubleY() tcy([displayX/2-displayCornerDia/2+extraXY, displayY/2-displayCornerDia/2+extraXY, -10], d=displayCornerDia, h=100);
+		doubleX() doubleY() tcy([displayX/2-displayCornerDia/2+extraXY, displayY/2-displayCornerDia/2+extraXY, z], d=displayCornerDia, h=h);
 	} 
 }
 
@@ -114,7 +126,7 @@ module button(dia, x)
 	{
 		d = dia + 2;
 		translate([0,0,-10]) cylinder(d=d, h=100);
-		translate([0,0,-25+d/2+1.7]) cylinder(d1=50, d2=0, h=25);
+		translate([0,0,-25+d/2+1]) cylinder(d1=50, d2=0, h=25);
 	}
 }
 
