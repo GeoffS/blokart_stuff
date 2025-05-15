@@ -26,12 +26,12 @@ powerSwitchPosBottomY = 24.5 + 1.6 ;
 powerSwitchPosTopY = 32.8 + 1.6;
 powerSwitchPosZ = 5.3;
 
-clockXYCornerDia = 2 * 21;
+clockXYCornerDia = 2 * 21.5;
 clockZEdgeDia = 2 * 4.3;
 
 
 clockHolderWallThickness = 4 * wallThickness - 0.1; // 0.1? No idea, makes the slicer happy.
-clockHolderFrontThickness = clockHolderWallThickness + 1.5;
+clockHolderFrontThickness = clockHolderWallThickness + 1.0;
 clockFaceSplitZ = 5.6 + clockHolderFrontThickness;
 clockHolderXYCornerDia = clockXYCornerDia + 2*clockHolderWallThickness;
 clockHolderZEdgeDia = clockZEdgeDia + 2*clockHolderWallThickness;
