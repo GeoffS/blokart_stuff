@@ -8,8 +8,8 @@ include <../../OpenSCAD_Lib/chamferedCylinders.scad>
 layerThickness = 0.2;
 wallThickness = 0.42;
 
-clockX = 72.5-0.1;
-clockY = 66.4-0.1;
+clockX = 72.5 + 0.4;
+clockY = 66.4 + 0.4;
 clockZ = 21.55;
 
 leftButtonX = 16.12 + 2.5;
