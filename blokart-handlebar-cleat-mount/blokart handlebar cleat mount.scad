@@ -1,7 +1,7 @@
-include <MakeInclude.scad>
-include <Hardware.scad>
-use <torus.scad>
-include <blokart steering tube internal utlities.scad>
+include <../../OpenSCAD_Lib/MakeInclude.scad>
+include <../../OpenSCAD_Lib/torus.scad>
+include <../../OpenSCAD_Lib/Hardware.scad>
+include <blokart steering tube internal utilities.scad>
 
 build_fa = 5;
 build_fs = 0.2;
