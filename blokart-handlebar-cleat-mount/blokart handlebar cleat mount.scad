@@ -3,12 +3,6 @@ include <../../OpenSCAD_Lib/torus.scad>
 include <../../OpenSCAD_Lib/Hardware.scad>
 include <blokart steering tube internal utilities.scad>
 
-build_fa = 5;
-build_fs = 0.2;
-/* build_fa = 20;
-build_fs = 1; */
-
-
 makeTopHalf = false;
 makeBottomHalf = false;
 echo(str("makeTopHalf = ", makeTopHalf));
@@ -458,37 +452,14 @@ module prettyRender()
 
 if(developmentRender)
 {
-  //prettyRender();
+  // display() bottomHalf();
 
-  difference()
-  {
-    union()
-    {
-      translate([0, -0.2, 0]) bottomHalf();
-      translate([0,  0.2, 0]) topHalf();
-    }
+  // display() topHalf();
 
-    // fullMount();
-    //rotate(handleAngle, [0,0,1]) fullMount();
-    //fullExternal();
+  // display() translate([0, -0.2, 0]) bottomHalf();
+  // display() translate([0,  0.2, 0]) topHalf();
 
-    //topAndBottomSplit(0.1);
-
-    clip();
-  }
-
-  //%frontBoltsGhost();
-
-  /* %Harken471CamCleat();
-  %mirror([1,0,0]) Harken471CamCleat(); */
-
-  /* difference()
-  {
-    barGhost();
-    //clip();
-    translate([-200, -200, -0.1]) cube(400);
-  } */
-
+  prettyRender();
 }
 else
 {
