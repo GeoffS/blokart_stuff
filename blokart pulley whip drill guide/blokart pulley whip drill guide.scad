@@ -1,7 +1,9 @@
-include <MakeInclude.scad>
-include <chamferedCylinders.scad>
-include <hardware.scad>
-use <torus.scad>
+// Copyright 2025 - Geoff SObering - All Rights Reserved
+// Licensed under the GNU GENERAL PUBLIC LICENSE, Version 3
+
+include <../../OpenSCAD_Lib/MakeInclude.scad>
+include <../../OpenSCAD_Lib/torus.scad>
+include <../../OpenSCAD_Lib/chamferedCylinders.scad>
 
 // makePlugWithStop = false;
 // makePlugThrough = false;
