@@ -195,7 +195,7 @@ if(developmentRender)
 }
 else
 {
-	if(makePlugWithStop) plugScrewGuideWithStop();
-    if(makePlugThrough) plugScrewGuideThrough();
+	// if(makePlugWithStop) plugScrewGuideWithStop();
+    // if(makePlugThrough) plugScrewGuideThrough();
     if(makeSandingJig) sandingJig();
 }
