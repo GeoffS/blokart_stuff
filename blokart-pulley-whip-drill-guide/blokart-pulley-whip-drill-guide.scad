@@ -122,7 +122,7 @@ module sandingJig()
             }
 
             // Carriage bolt recess:
-            tcy([0,0,-jigDia/2-20+5], d=6.7*sqrt(2), h=20, $fn=4);
+            doubleZ() tcy([0,0,jigDia/2-5], d=6.7*sqrt(2), h=20, $fn=4);
         }
 
         // Plug drill hole:
@@ -172,13 +172,7 @@ if(developmentRender)
 	display() sandingJig();
             
     // Bolt ghost:
-    displayGhost() translate([screwHoleOffsetX, 0, screwHoleOffsetZ]) rotate([-90,0,0]) union()
-    {
-        // Bolt:
-        tcy([0,0,-jigDia/2], d=6.35, h=74);
-        // Wing-nut:
-        tcy([0,0,jigDia/2], d=19, h=5);
-    }
+    // displayGhost() clampBoltGhost();
         
 		// plugScrewGuideWithStop();
         // plugScrewGuideThrough();
@@ -198,4 +192,15 @@ else
 	// if(makePlugWithStop) plugScrewGuideWithStop();
     // if(makePlugThrough) plugScrewGuideThrough();
     if(makeSandingJig) sandingJig();
+}
+
+module clampBoltGhost()
+{
+    translate([screwHoleOffsetX, 0, screwHoleOffsetZ]) rotate([-90,0,0]) union()
+    {
+        // Bolt:
+        tcy([0,0,-jigDia/2], d=6.35, h=74);
+        // Wing-nut:
+        tcy([0,0,jigDia/2], d=19, h=5);
+    }
 }
