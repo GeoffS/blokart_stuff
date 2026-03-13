@@ -161,7 +161,7 @@ module roundedCylinder(d, cz, h)
         );
 }
 
-module clip()
+module clip(d=0)
 {
 	// tc([-200, -400, -10], 400);
     // tc([20, -200, -200], 400);
@@ -169,21 +169,17 @@ module clip()
 
 if(developmentRender)
 {
-	difference()
-	{
-        union()
-        {
-            sandingJig();
+	display() sandingJig();
             
-            // // Bolt ghost:
-            // %translate([screwHoleOffsetX, 0, screwHoleOffsetZ]) rotate([-90,0,0]) union()
-            // {
-            //     // Bolt:
-            //     tcy([0,0,-jigDia/2], d=6.35, h=74);
-            //     // Wing-nut:
-            //     tcy([0,0,jigDia/2], d=19, h=5);
-            // }
-        }
+    // Bolt ghost:
+    displayGhost() translate([screwHoleOffsetX, 0, screwHoleOffsetZ]) rotate([-90,0,0]) union()
+    {
+        // Bolt:
+        tcy([0,0,-jigDia/2], d=6.35, h=74);
+        // Wing-nut:
+        tcy([0,0,jigDia/2], d=19, h=5);
+    }
+        
 		// plugScrewGuideWithStop();
         // plugScrewGuideThrough();
 
@@ -194,8 +190,8 @@ if(developmentRender)
         //     translate([ 60,0,0]) plugScrewGuideThrough();
         // }
 
-		clip();
-	}
+		// clip();
+	// }
 }
 else
 {
