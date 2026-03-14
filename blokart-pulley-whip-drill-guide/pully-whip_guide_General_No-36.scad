@@ -25,6 +25,7 @@ jigBaseInsertZ = jigBaseZ + baseZ;
 jigBaseInsertCZ = 1;
 
 pullyWhipHoleBottomZ = 9;
+pulleyWhipCtrZ = pullyWhipHoleBottomZ+pulleyWhipOD/2;
 
 baseCornerX = baseX/2 - baseCornerDia/2;
 baseCornerY = baseY/2 - baseCornerDia/2;
@@ -49,6 +50,14 @@ module itemModule()
 
             // Insert into jig=opening:
             hull() doubleY() translate([0, insertOffsetY, -jigBaseZ]) simpleChamferedCylinderDoubleEnded(d=jigBaseOpeningX, h=jigBaseInsertZ, cz=jigBaseInsertCZ);
+
+            // Upper section:
+            upperY = baseY - 2*baseCZ;
+            upperOD = pulleyWhipOD + 15;
+            hull()
+            {
+                translate([0,0,pulleyWhipCtrZ]) rotate([-90,0,0]) tcy([0,0,-upperY/2], d=upperOD, h=upperY);
+            }
         }
 
         // Clearance for the carriage bolt heads:
@@ -60,7 +69,11 @@ module itemModule()
         tcy([0,0,-50], d=9.7, h=200);
 
         // Pulley-whip hole:
-        translate([0,0,pullyWhipHoleBottomZ+pulleyWhipOD/2]) rotate([-90,0,0]) tcy([0,0,-100], d=pulleyWhipOD, h=200);
+        translate([0,0,pulleyWhipCtrZ]) rotate([-90,0,0]) tcy([0,0,-100], d=pulleyWhipOD, h=200);
+
+        // Pulley-whip clamp slot:
+        slotThickness = 2.5;
+        tcu([0,-100,pulleyWhipCtrZ-slotThickness/2], [100,200,slotThickness]);
     }
 }
 
