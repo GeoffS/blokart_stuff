@@ -47,6 +47,10 @@ module itemModule()
             hull() doubleY() translate([0, insertOffsetY, -jigBaseZ]) simpleChamferedCylinderDoubleEnded(d=jigBaseOpeningX, h=jigBaseInsertZ, cz=jigBaseInsertCZ);
         }
 
+        // Clearance for the carriage bolt heads:
+        carriageBoltHeadDia = 30;
+        doubleX() tcy([baseX/2+carriageBoltHeadDia/2-4, 0, -50], d=carriageBoltHeadDia, h=100);
+
         // Drill Guide Hole:
         tcy([0,0,-50], d=9.7, h=200);
     }
@@ -55,7 +59,7 @@ module itemModule()
 module clip(d=0)
 {
 	// tc([-200, -400-d, -50], 400);
-    // tcu([-200, -200, -400+d], 400);
+    tcu([-200, -200, -400+d], 400);
 }
 
 if(developmentRender)
