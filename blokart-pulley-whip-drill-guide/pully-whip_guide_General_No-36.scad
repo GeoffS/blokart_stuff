@@ -4,6 +4,8 @@ include <../../OpenSCAD_Lib/chamferedCylinders.scad>
 firstLayerHeight = 0.2;
 layerHeight = 0.2;
 
+pulleyWhipOD = 22.4; // 7/8" nominal
+
 jigBaseX = 71;
 jigBaseY = 81.2;
 jigBaseZ = 12.5;
@@ -21,6 +23,8 @@ baseCornerDia = 12;
 
 jigBaseInsertZ = jigBaseZ + baseZ;
 jigBaseInsertCZ = 1;
+
+pullyWhipHoleBottomZ = 9;
 
 baseCornerX = baseX/2 - baseCornerDia/2;
 baseCornerY = baseY/2 - baseCornerDia/2;
@@ -54,6 +58,9 @@ module itemModule()
 
         // Drill Guide Hole:
         tcy([0,0,-50], d=9.7, h=200);
+
+        // Pulley-whip hole:
+        translate([0,0,pullyWhipHoleBottomZ+pulleyWhipOD/2]) rotate([-90,0,0]) tcy([0,0,-100], d=pulleyWhipOD, h=200);
     }
 }
 
