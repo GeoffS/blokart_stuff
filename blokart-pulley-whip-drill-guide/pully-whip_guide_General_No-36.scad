@@ -8,8 +8,8 @@ jigBaseX = 71;
 jigBaseY = 81;
 jigBaseZ = 12.5;
 
-jigBaseOpeningX = 57;
-jigBaseOpeningY = 73;
+jigBaseOpeningX = 57.3;
+jigBaseOpeningY = 73.3;
 
 jigRodSupportY = 54;
 
@@ -59,7 +59,7 @@ module itemModule()
 module clip(d=0)
 {
 	// tc([-200, -400-d, -50], 400);
-    tcu([-200, -200, -400+d], 400);
+    // tcu([-200, -200, -400+d], 400);
 }
 
 if(developmentRender)
