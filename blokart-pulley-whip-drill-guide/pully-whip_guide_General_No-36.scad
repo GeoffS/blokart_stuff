@@ -49,7 +49,8 @@ module itemModule()
 
         // Clearance for the carriage bolt heads:
         carriageBoltHeadDia = 30;
-        doubleX() tcy([baseX/2+carriageBoltHeadDia/2-5, 0, -50], d=carriageBoltHeadDia, h=100);
+        carriageBoltHeadSpacingX = 65;
+        doubleX() tcy([carriageBoltHeadSpacingX/2-carriageBoltHeadDia/2+carriageBoltHeadDia, 0, -50], d=carriageBoltHeadDia, h=100);
 
         // Drill Guide Hole:
         tcy([0,0,-50], d=9.7, h=200);
