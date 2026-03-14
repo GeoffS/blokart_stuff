@@ -13,7 +13,7 @@ jigBaseOpeningY = 73.3;
 
 jigRodSupportY = 54;
 
-baseX = 85; ///jigBaseX;
+baseX = 85;
 baseY = jigBaseY;
 baseZ = 10;
 baseCZ = 4.0;
