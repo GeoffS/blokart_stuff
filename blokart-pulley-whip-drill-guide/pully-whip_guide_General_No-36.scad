@@ -5,7 +5,7 @@ firstLayerHeight = 0.2;
 layerHeight = 0.2;
 
 jigBaseX = 71;
-jigBaseY = 81;
+jigBaseY = 81.2;
 jigBaseZ = 12.5;
 
 jigBaseOpeningX = 57.3;
@@ -13,7 +13,7 @@ jigBaseOpeningY = 73.3;
 
 jigRodSupportY = 54;
 
-baseX = jigBaseX;
+baseX = 85; ///jigBaseX;
 baseY = jigBaseY;
 baseZ = 10;
 baseCZ = 4.0;
@@ -40,7 +40,7 @@ module itemModule()
                 hull() doubleX() doubleY() translate([baseCornerX, baseCornerY, 0]) simpleChamferedCylinderDoubleEnded(d=baseCornerDia, h=baseZ, cz=baseCZ);
 
                 // Cut-away for the jig supports:
-                doubleX() translate([baseX/2-9, 0, 0]) rotate([0,45,0]) tcu([0, -jigRodSupportY/2, -50], [100, jigRodSupportY, 100]);
+                doubleX() translate([jigBaseOpeningX/2, 0, 0]) rotate([0,45,0]) tcu([0, -jigRodSupportY/2, -1], [100, jigRodSupportY, 100]);
             }
 
             // Insert into jig=opening:
@@ -49,7 +49,7 @@ module itemModule()
 
         // Clearance for the carriage bolt heads:
         carriageBoltHeadDia = 30;
-        doubleX() tcy([baseX/2+carriageBoltHeadDia/2-4, 0, -50], d=carriageBoltHeadDia, h=100);
+        doubleX() tcy([baseX/2+carriageBoltHeadDia/2-5, 0, -50], d=carriageBoltHeadDia, h=100);
 
         // Drill Guide Hole:
         tcy([0,0,-50], d=9.7, h=200);
