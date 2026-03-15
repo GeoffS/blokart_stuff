@@ -43,11 +43,13 @@ upperY = 40;
 upperOD = pulleyWhipOD + 10;
 
 topBottomSplitOffsetZ = pulleyWhipCtrZ-slotThickness/2;
+echo(str("topBottomSplitOffsetZ = ", topBottomSplitOffsetZ));
 
 // m4 socket-head:
 screwDia = 3.3;
 screwHeadDia = 6.2;
 screwNuteDia = 6.2;
+screwThroughNutZ = 4;
 screwZ = 20;
 
 screwOffsetX = -22;
@@ -71,9 +73,32 @@ module jigBottom()
     }
 }
 
+effectiveScrewZ = screwZ - screwThroughNutZ;
+echo(str("effectiveScrewZ = ", effectiveScrewZ));
+
 module topToBottomScrews()
 {
-    doubleY() tcy([screwOffsetX, screwOffsetY, -100], d=screwDia, h=200);
+    
+
+    doubleY()
+    {
+        // Screw-hole all the way through:
+        tcy([screwOffsetX, screwOffsetY, -100], d=screwDia, h=200);
+
+        // Nut Recess (bottom):
+        translate([screwOffsetX, screwOffsetY, 0])
+        {
+            tcy([0,0,topBottomSplitOffsetZ-200-effectiveScrewZ/2], d=screwNuteDia, h=200, $fn=6);
+            hull()
+            {
+                tcy([0,0,-200], d=8, h=200);
+            }
+        }
+
+        // Screw-head recess (top):
+        tcy([screwOffsetX, screwOffsetY, topBottomSplitOffsetZ+effectiveScrewZ/2], d=screwHeadDia, h=200);
+
+    }
 }
 
 module jig()
@@ -150,13 +175,15 @@ module clip(d=0)
     // tcu([-200, -200, -400+d], 400);
 
     // Screw holes along X:
-    tcu([screwOffsetX-400+d, -200, -200], 400);
+    // tcu([screwOffsetX-400+d, -200, -200], 400);
+    // Screw hole along X:
+    tcu([screwOffsetX-400+d, 0, -200], 400);
 }
 
 if(developmentRender)
 {
 	display() jigBottom();
-    display() jigTop();
+    display() translate([0,0,0.05]) jigTop();
     displayGhost() screwGhost();
 
 	// display() jigBottom();
@@ -173,5 +200,5 @@ else
 
 module screwGhost()
 {
-    translate([screwOffsetX, screwOffsetY, topBottomSplitOffsetZ-screwZ/2]) cylinder(d=screwDia, h=screwZ);
+    translate([screwOffsetX, screwOffsetY, topBottomSplitOffsetZ-screwZ+effectiveScrewZ/2]) cylinder(d=screwDia, h=screwZ);
 }
