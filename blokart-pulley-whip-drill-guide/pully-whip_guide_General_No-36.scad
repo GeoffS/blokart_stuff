@@ -21,7 +21,7 @@ jigRodSupportUpperY = 41;
 
 baseX = 85;
 baseY = jigBaseY;
-baseZ = 40; //10;
+baseZ = 40;
 baseCZ = 4.0;
 baseCornerDia = 12;
 
@@ -37,7 +37,7 @@ baseCornerY = baseY/2 - baseCornerDia/2;
 insertOffsetY = (jigBaseOpeningY - jigBaseOpeningX)/2;
 echo(str("insertOffsetY = ", insertOffsetY));
 
-upperY = 40; //baseY - 2*baseCZ;
+upperY = 40;
 upperOD = pulleyWhipOD + 10;
 
 module jigTop()
@@ -72,20 +72,6 @@ module jig()
                 // Cut-away for the jig supports:
                 jigSupportCutouts();
             }
-
-            // difference()
-            // {
-            //     dz = 15;
-            //     hull()
-            //     {
-            //         // Concentric cylinder around the pulley whip hole:
-            //         translate([0,0,pulleyWhipCtrZ]) rotate([-90,0,0]) translate([0,0,-upperY/2]) simpleChamferedCylinderDoubleEnded(d=upperOD, h=upperY, cz=5);
-            //         // Additional cylinder to give a good print-surface contact:
-            //         translate([0,0,pulleyWhipCtrZ+dz]) rotate([-90,0,0]) translate([0,0,-upperY/2]) rotate([0,0,22.5]) simpleChamferedCylinderDoubleEnded(d=upperOD, h=upperY, cz=5, $fn=8);
-            //     }
-
-            //     tcu([-200, -200, pulleyWhipCtrZ+dz+9.5], 400);
-            // }
 
             // Insert into jig=opening:
             difference()
