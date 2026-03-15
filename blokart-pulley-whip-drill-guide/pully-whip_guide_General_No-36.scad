@@ -58,6 +58,11 @@ module jigBottom()
     }
 }
 
+module topToBottomScrews()
+{
+
+}
+
 module jig()
 {
     difference()
@@ -84,16 +89,16 @@ module jig()
             }
         }
 
-        // Clearance for the carriage bolt heads:
         caarriageBoltHeadsClearance();
 
         // Drill Guide Hole:
         tcy([0,0,-50], d=9.7, h=200);
 
-        // Pulley-whip hole:
         pulleyWhipHole();
 
         pulleyWhipClampSlot();
+
+        topToBottomScrews();
     }
 }
 
