@@ -137,8 +137,7 @@ module jig()
 
         caarriageBoltHeadsClearance();
 
-        // Drill Guide Hole:
-        tcy([0,0,-50], d=9.7, h=200);
+        drillGuideHole();
 
         pulleyWhipHole();
 
@@ -146,6 +145,17 @@ module jig()
 
         topToBottomScrews();
     }
+}
+
+module drillGuideHole()
+{
+    drilOD = 9.7;
+    // Through-hole:
+    tcy([0,0,-50], d=drilOD, h=200);
+    // Top chamfer:
+    translate([0,0,baseZ-drilOD/2-1]) cylinder(d2=30, d1=0, h=15);
+    // Bottom  chamfer:
+    translate([0,0,-jigBaseZ-15+drilOD/2+1]) cylinder(d1=30, d2=0, h=15);
 }
 
 module jigSupportCutouts()
@@ -179,13 +189,13 @@ module pulleyWhipClampSlot()
 
 module clip(d=0)
 {
-	// tc([-200, -400-d, -50], 400);
+	tc([-200, -400-d, -50], 400);
     // tcu([-200, -200, -400+d], 400);
 
     // Screw holes along X:
     // tcu([screwOffsetX-400+d, -200, -200], 400);
     // Screw hole along X:
-    tcu([screwOffsetX-400+d, 0, -200], 400);
+    // tcu([screwOffsetX-400+d, 0, -200], 400);
 }
 
 if(developmentRender)
