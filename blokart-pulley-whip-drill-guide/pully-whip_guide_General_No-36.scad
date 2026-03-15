@@ -44,6 +44,15 @@ upperOD = pulleyWhipOD + 10;
 
 topBottomSplitOffsetZ = pulleyWhipCtrZ-slotThickness/2;
 
+// m4 socket-head:
+screwDia = 3.3;
+screwHeadDia = 6.2;
+screwNuteDia = 6.2;
+screwZ = 20;
+
+screwOffsetX = -22;
+screwOffsetY = 22;
+
 module jigTop()
 {
     difference() 
@@ -64,16 +73,7 @@ module jigBottom()
 
 module topToBottomScrews()
 {
-    // m4 socket-head:
-    screwDia = 3.3;
-    screwHeadDia = 6.2;
-    screwNuteDia = 6.2;
-    screwZ = 20;
-
-    screwOffsetX = -45;
-    screwOffsetY = 45;
-
-    doubleY() tcy([screwOffsetX/2, screwOffsetY/2, -100], d=screwDia, h=200);
+    doubleY() tcy([screwOffsetX, screwOffsetY, -100], d=screwDia, h=200);
 }
 
 module jig()
@@ -148,18 +148,30 @@ module clip(d=0)
 {
 	// tc([-200, -400-d, -50], 400);
     // tcu([-200, -200, -400+d], 400);
+
+    // Screw holes along X:
+    tcu([screwOffsetX-400+d, -200, -200], 400);
 }
 
 if(developmentRender)
 {
+	display() jigBottom();
+    display() jigTop();
+    displayGhost() screwGhost();
+
 	// display() jigBottom();
     // displayGhost() jigTop();
     
-	displayGhost() jigBottom();
-    display() jigTop();
+	// displayGhost() jigBottom();
+    // display() jigTop();
 }
 else
 {
 	if(makeBottom) rotate([180,0,0]) jigBottom();
 	if(makeTop) rotate([180,0,0]) jigTop();
+}
+
+module screwGhost()
+{
+    translate([screwOffsetX, screwOffsetY, topBottomSplitOffsetZ-screwZ/2]) cylinder(d=screwDia, h=screwZ);
 }
