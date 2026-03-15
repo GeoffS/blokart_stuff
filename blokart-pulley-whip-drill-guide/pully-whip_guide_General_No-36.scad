@@ -78,26 +78,25 @@ echo(str("effectiveScrewZ = ", effectiveScrewZ));
 
 module topToBottomScrews()
 {
-    
-
-    doubleY()
+    doubleY() translate([screwOffsetX, screwOffsetY, 0])
     {
         // Screw-hole all the way through:
-        tcy([screwOffsetX, screwOffsetY, -100], d=screwDia, h=200);
+        tcy([0, 0, -100], d=screwDia, h=200);
 
         // Nut Recess (bottom):
-        translate([screwOffsetX, screwOffsetY, 0])
+        tcy([0,0,topBottomSplitOffsetZ-200-effectiveScrewZ/2], d=screwNuteDia, h=200, $fn=6);
+        // Trim away the oval inset to reduce sharp corners and make printing easier:
+        hull()
         {
-            tcy([0,0,topBottomSplitOffsetZ-200-effectiveScrewZ/2], d=screwNuteDia, h=200, $fn=6);
-            hull()
-            {
-                tcy([0,0,-200], d=8, h=200);
-            }
+            tcy([0,0,-200], d=8, h=200);
+            // MAGIC!!!
+            //  ---------vvv
+            rotate([0,0,-35]) tcy([-6.5,0,-200], d=14, h=200);
         }
 
         // Screw-head recess (top):
-        tcy([screwOffsetX, screwOffsetY, topBottomSplitOffsetZ+effectiveScrewZ/2], d=screwHeadDia, h=200);
-
+        tcy([0,0, topBottomSplitOffsetZ+effectiveScrewZ/2], d=screwHeadDia, h=200);
+        translate([0,0,baseZ-screwHeadDia/2-1]) cylinder(d2=20, d1=0, h=10);
     }
 }
 
