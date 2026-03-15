@@ -4,6 +4,9 @@ include <../../OpenSCAD_Lib/chamferedCylinders.scad>
 firstLayerHeight = 0.2;
 layerHeight = 0.2;
 
+makeJig = false;
+makeSupportModifier = false;
+
 pulleyWhipOD = 22.4; // 7/8" nominal
 
 jigBaseX = 71;
@@ -48,7 +51,7 @@ module baseCore()
     }
 }
 
-module itemModule()
+module jig()
 {
     difference()
     {
@@ -59,8 +62,7 @@ module itemModule()
                 baseCore();
 
                 // Cut-away for the jig supports:
-                doubleX() translate([jigBaseOpeningX/2, 0, 0]) rotate([0,45,0]) tcu([0, -jigRodSupportY/2, -1], [100, jigRodSupportY, 100]);
-                doubleX() tcu([jigBaseX/2, -jigRodSupportUpperY/2, -50], [100, jigRodSupportUpperY, 100]);
+                jigSupportCutouts();
             }
 
             // difference()
@@ -102,25 +104,60 @@ module itemModule()
         }
 
         // Clearance for the carriage bolt heads:
-        carriageBoltHeadDia = 30;
-        carriageBoltHeadSpacingX = 65;
-        doubleX() tcy([carriageBoltHeadSpacingX/2-carriageBoltHeadDia/2+carriageBoltHeadDia, 0, -50], d=carriageBoltHeadDia, h=100);
+        caarriageBoltHeadsClearance();
 
         // Drill Guide Hole:
         tcy([0,0,-50], d=9.7, h=200);
 
         // Pulley-whip hole:
-        translate([0,0,pulleyWhipCtrZ]) hull()
-        {
-            rotate([-90,0,0]) tcy([0,0,-100], d=pulleyWhipOD, h=200);
-            // f = cos(22.5);
-            flatX = 9;
-            tcu([-flatX/2, -100, -pulleyWhipOD/2], [flatX, 200, pulleyWhipOD/2]);
-        }
+        pulleyWhipHole();
 
-        // Pulley-whip clamp slot:
-        slotThickness = 2;
-        tcu([0,-100,pulleyWhipCtrZ-slotThickness/2], [100,200,slotThickness]);
+        pulleyWhipClampSlot();
+    }
+}
+
+module jigSupportCutouts()
+{
+    doubleX() translate([jigBaseOpeningX/2, 0, 0]) rotate([0,45,0]) tcu([0, -jigRodSupportY/2, -1], [100, jigRodSupportY, 100]);
+    doubleX() tcu([jigBaseX/2, -jigRodSupportUpperY/2, -50], [100, jigRodSupportUpperY, 100]);
+}
+
+module caarriageBoltHeadsClearance()
+{
+    carriageBoltHeadDia = 30;
+    carriageBoltHeadSpacingX = 65;
+    doubleX() tcy([carriageBoltHeadSpacingX/2-carriageBoltHeadDia/2+carriageBoltHeadDia, 0, -50], d=carriageBoltHeadDia, h=100);
+}
+
+module pulleyWhipHole()
+{
+    translate([0,0,pulleyWhipCtrZ]) hull()
+    {
+        rotate([-90,0,0]) tcy([0,0,-100], d=pulleyWhipOD, h=200);
+        // f = cos(22.5);
+        flatX = 9;
+        tcu([-flatX/2, -100, -pulleyWhipOD/2], [flatX, 200, pulleyWhipOD/2]);
+    }
+}
+
+module pulleyWhipClampSlot()
+{
+    slotThickness = 2;
+    tcu([0,-100,pulleyWhipCtrZ-slotThickness/2], [100,200,slotThickness]);
+}
+
+module supportModifier()
+{
+    difference()
+    {
+        intersection() 
+        {
+            pulleyWhipClampSlot();
+            baseCore();
+        }
+        pulleyWhipHole();
+        jigSupportCutouts();
+        caarriageBoltHeadsClearance();
     }
 }
 
@@ -132,9 +169,14 @@ module clip(d=0)
 
 if(developmentRender)
 {
-	display() itemModule();
+	// display() jig();
+    // displayGhost() supportModifier();
+
+    displayGhost() jig();
+    display() supportModifier();
 }
 else
 {
-	rotate([180,0,0]) itemModule();
+	if(makeJig) rotate([180,0,0]) jig();
+	if(makeSupportModifier) rotate([180,0,0]) supportModifier();
 }
