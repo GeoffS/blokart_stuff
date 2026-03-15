@@ -4,8 +4,8 @@ include <../../OpenSCAD_Lib/chamferedCylinders.scad>
 firstLayerHeight = 0.2;
 layerHeight = 0.2;
 
-makeJig = false;
-makeSupportModifier = false;
+makeBottom = false;
+makeTop = false;
 
 pulleyWhipOD = 22.4; // 7/8" nominal
 
@@ -48,6 +48,24 @@ module baseCore()
         doubleX() doubleY() translate([baseCornerX, baseCornerY, 0]) simpleChamferedCylinderDoubleEnded(d=baseCornerDia, h=baseZ, cz=baseCZ);
         // // Concentric cylinder around the pulley whip hole:
         // translate([0,0,pulleyWhipCtrZ]) rotate([-90,0,0]) translate([0,0,-upperY/2]) simpleChamferedCylinderDoubleEnded(d=upperOD, h=upperY, cz=5);
+    }
+}
+
+module jigTop()
+{
+    difference() 
+    {
+        jig();
+        tcu([-200,-200,pulleyWhipCtrZ-slotThickness/2-400], 400);
+    }
+}
+
+module jigBottom()
+{
+    difference() 
+    {
+        jig();
+        tcu([-200,-200,pulleyWhipCtrZ-slotThickness/2], 400);
     }
 }
 
@@ -140,26 +158,27 @@ module pulleyWhipHole()
     }
 }
 
+slotThickness = 2;
+
 module pulleyWhipClampSlot()
 {
-    slotThickness = 2;
     tcu([0,-100,pulleyWhipCtrZ-slotThickness/2], [100,200,slotThickness]);
 }
 
-module supportModifier()
-{
-    difference()
-    {
-        intersection() 
-        {
-            pulleyWhipClampSlot();
-            baseCore();
-        }
-        pulleyWhipHole();
-        jigSupportCutouts();
-        caarriageBoltHeadsClearance();
-    }
-}
+// module supportModifier()
+// {
+//     difference()
+//     {
+//         intersection() 
+//         {
+//             pulleyWhipClampSlot();
+//             baseCore();
+//         }
+//         pulleyWhipHole();
+//         jigSupportCutouts();
+//         caarriageBoltHeadsClearance();
+//     }
+// }
 
 module clip(d=0)
 {
@@ -169,14 +188,14 @@ module clip(d=0)
 
 if(developmentRender)
 {
-	// display() jig();
-    // displayGhost() supportModifier();
-
-    displayGhost() jig();
-    display() supportModifier();
+	// display() jigBottom();
+    // displayGhost() jigTop();
+    
+	displayGhost() jigBottom();
+    display() jigTop();
 }
 else
 {
-	if(makeJig) rotate([180,0,0]) jig();
-	if(makeSupportModifier) rotate([180,0,0]) supportModifier();
+	if(makeBottom) rotate([180,0,0]) jigBottom();
+	if(makeTop) rotate([180,0,0]) jigTop();
 }
