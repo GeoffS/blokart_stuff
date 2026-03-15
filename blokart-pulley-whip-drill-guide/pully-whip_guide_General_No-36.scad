@@ -18,7 +18,7 @@ jigRodSupportUpperY = 41;
 
 baseX = 85;
 baseY = jigBaseY;
-baseZ = 10;
+baseZ = 40; //10;
 baseCZ = 4.0;
 baseCornerDia = 12;
 
@@ -43,8 +43,8 @@ module baseCore()
     {
         // Base:
         doubleX() doubleY() translate([baseCornerX, baseCornerY, 0]) simpleChamferedCylinderDoubleEnded(d=baseCornerDia, h=baseZ, cz=baseCZ);
-        // Concentric cylinder around the pulley whip hole:
-        translate([0,0,pulleyWhipCtrZ]) rotate([-90,0,0]) translate([0,0,-upperY/2]) simpleChamferedCylinderDoubleEnded(d=upperOD, h=upperY, cz=5);
+        // // Concentric cylinder around the pulley whip hole:
+        // translate([0,0,pulleyWhipCtrZ]) rotate([-90,0,0]) translate([0,0,-upperY/2]) simpleChamferedCylinderDoubleEnded(d=upperOD, h=upperY, cz=5);
     }
 }
 
@@ -63,19 +63,19 @@ module itemModule()
                 doubleX() tcu([jigBaseX/2, -jigRodSupportUpperY/2, -50], [100, jigRodSupportUpperY, 100]);
             }
 
-            difference()
-            {
-                dz = 15;
-                hull()
-                {
-                    // Concentric cylinder around the pulley whip hole:
-                    translate([0,0,pulleyWhipCtrZ]) rotate([-90,0,0]) translate([0,0,-upperY/2]) simpleChamferedCylinderDoubleEnded(d=upperOD, h=upperY, cz=5);
-                    // Additional cylinder to give a good print-surface contact:
-                    translate([0,0,pulleyWhipCtrZ+dz]) rotate([-90,0,0]) translate([0,0,-upperY/2]) rotate([0,0,22.5]) simpleChamferedCylinderDoubleEnded(d=upperOD, h=upperY, cz=5, $fn=8);
-                }
+            // difference()
+            // {
+            //     dz = 15;
+            //     hull()
+            //     {
+            //         // Concentric cylinder around the pulley whip hole:
+            //         translate([0,0,pulleyWhipCtrZ]) rotate([-90,0,0]) translate([0,0,-upperY/2]) simpleChamferedCylinderDoubleEnded(d=upperOD, h=upperY, cz=5);
+            //         // Additional cylinder to give a good print-surface contact:
+            //         translate([0,0,pulleyWhipCtrZ+dz]) rotate([-90,0,0]) translate([0,0,-upperY/2]) rotate([0,0,22.5]) simpleChamferedCylinderDoubleEnded(d=upperOD, h=upperY, cz=5, $fn=8);
+            //     }
 
-                tcu([-200, -200, pulleyWhipCtrZ+dz+9.5], 400);
-            }
+            //     tcu([-200, -200, pulleyWhipCtrZ+dz+9.5], 400);
+            // }
 
             // Insert into jig=opening:
             difference()
@@ -110,7 +110,13 @@ module itemModule()
         tcy([0,0,-50], d=9.7, h=200);
 
         // Pulley-whip hole:
-        translate([0,0,pulleyWhipCtrZ]) rotate([-90,0,0]) tcy([0,0,-100], d=pulleyWhipOD, h=200);
+        translate([0,0,pulleyWhipCtrZ]) hull()
+        {
+            rotate([-90,0,0]) tcy([0,0,-100], d=pulleyWhipOD, h=200);
+            // f = cos(22.5);
+            flatX = 9;
+            tcu([-flatX/2, -100, -pulleyWhipOD/2], [flatX, 200, pulleyWhipOD/2]);
+        }
 
         // Pulley-whip clamp slot:
         slotThickness = 2;
