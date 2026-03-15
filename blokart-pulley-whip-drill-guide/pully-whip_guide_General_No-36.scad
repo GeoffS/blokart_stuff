@@ -7,13 +7,14 @@ layerHeight = 0.2;
 pulleyWhipOD = 22.4; // 7/8" nominal
 
 jigBaseX = 71;
-jigBaseY = 81.2;
+jigBaseY = 81.2 + 0.5;
 jigBaseZ = 12.5;
 
-jigBaseOpeningX = 57.3;
+jigBaseOpeningX = 57.3 + 0.5;
 jigBaseOpeningY = 73.3;
 
 jigRodSupportY = 54;
+jigRodSupportUpperY = 41;
 
 baseX = 85;
 baseY = jigBaseY;
@@ -46,18 +47,26 @@ module itemModule()
 
                 // Cut-away for the jig supports:
                 doubleX() translate([jigBaseOpeningX/2, 0, 0]) rotate([0,45,0]) tcu([0, -jigRodSupportY/2, -1], [100, jigRodSupportY, 100]);
+                doubleX() tcu([jigBaseX/2, -jigRodSupportUpperY/2, -50], [100, jigRodSupportUpperY, 100]);
             }
 
             // Insert into jig=opening:
-            hull() doubleY() translate([0, insertOffsetY, -jigBaseZ]) simpleChamferedCylinderDoubleEnded(d=jigBaseOpeningX, h=jigBaseInsertZ, cz=jigBaseInsertCZ);
-
-            // Upper section:
-            upperY = baseY - 2*baseCZ;
-            upperOD = pulleyWhipOD + 15;
-            hull()
+            difference()
             {
-                translate([0,0,pulleyWhipCtrZ]) rotate([-90,0,0]) tcy([0,0,-upperY/2], d=upperOD, h=upperY);
+                hull() doubleY() translate([0, insertOffsetY, -jigBaseZ]) simpleChamferedCylinderDoubleEnded(d=jigBaseOpeningX, h=jigBaseInsertZ, cz=jigBaseInsertCZ);
+
+                // Notches for alignment bit in the jig opening:
+                doubleX() tcy([jigBaseOpeningX/2, 0, -100], d=2, h=100);
+                doubleY() tcy([0, jigBaseOpeningY/2, -100], d=2, h=100);
             }
+
+            // // Upper section:
+            // upperY = baseY - 2*baseCZ;
+            // upperOD = pulleyWhipOD + 15;
+            // hull()
+            // {
+            //     translate([0,0,pulleyWhipCtrZ]) rotate([-90,0,0]) tcy([0,0,-upperY/2], d=upperOD, h=upperY);
+            // }
         }
 
         // Clearance for the carriage bolt heads:
