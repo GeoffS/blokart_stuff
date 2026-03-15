@@ -10,7 +10,7 @@ makeTop = false;
 pulleyWhipOD = 22.4; // 7/8" nominal
 
 jigBaseX = 71;
-jigBaseY = 81.2 + 0.5;
+jigBaseY = 81.2 + 0.2;
 jigBaseZ = 12.5;
 
 jigBaseOpeningX = 57.3 + 0.5;
