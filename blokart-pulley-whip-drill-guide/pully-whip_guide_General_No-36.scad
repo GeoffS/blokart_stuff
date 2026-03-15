@@ -40,17 +40,6 @@ echo(str("insertOffsetY = ", insertOffsetY));
 upperY = 40; //baseY - 2*baseCZ;
 upperOD = pulleyWhipOD + 10;
 
-module baseCore()
-{
-    hull() 
-    {
-        // Base:
-        doubleX() doubleY() translate([baseCornerX, baseCornerY, 0]) simpleChamferedCylinderDoubleEnded(d=baseCornerDia, h=baseZ, cz=baseCZ);
-        // // Concentric cylinder around the pulley whip hole:
-        // translate([0,0,pulleyWhipCtrZ]) rotate([-90,0,0]) translate([0,0,-upperY/2]) simpleChamferedCylinderDoubleEnded(d=upperOD, h=upperY, cz=5);
-    }
-}
-
 module jigTop()
 {
     difference() 
@@ -77,7 +66,8 @@ module jig()
         {
             difference()
             {
-                baseCore();
+                // Base:
+                hull() doubleX() doubleY() translate([baseCornerX, baseCornerY, 0]) simpleChamferedCylinderDoubleEnded(d=baseCornerDia, h=baseZ, cz=baseCZ);
 
                 // Cut-away for the jig supports:
                 jigSupportCutouts();
@@ -106,19 +96,6 @@ module jig()
                 doubleX() tcy([jigBaseOpeningX/2, 0, -100], d=2, h=100);
                 doubleY() tcy([0, jigBaseOpeningY/2, -100], d=2, h=100);
             }
-
-            // // Upper section:
-            // upperY = baseY - 2*baseCZ;
-            // upperOD = pulleyWhipOD + 15;
-            // hull()
-            // {
-            //     translate([0,0,pulleyWhipCtrZ]) rotate([-90,0,0]) tcy([0,0,-upperY/2], d=upperOD, h=upperY);
-
-            //     difference()
-            //     {
-            //         baseCore();
-            //     }
-            // }
         }
 
         // Clearance for the carriage bolt heads:
@@ -164,21 +141,6 @@ module pulleyWhipClampSlot()
 {
     tcu([0,-100,pulleyWhipCtrZ-slotThickness/2], [100,200,slotThickness]);
 }
-
-// module supportModifier()
-// {
-//     difference()
-//     {
-//         intersection() 
-//         {
-//             pulleyWhipClampSlot();
-//             baseCore();
-//         }
-//         pulleyWhipHole();
-//         jigSupportCutouts();
-//         caarriageBoltHeadsClearance();
-//     }
-// }
 
 module clip(d=0)
 {
