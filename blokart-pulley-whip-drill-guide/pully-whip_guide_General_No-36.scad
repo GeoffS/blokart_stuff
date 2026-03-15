@@ -61,6 +61,7 @@ module jigTop()
     {
         jig();
         tcu([-200,-200,topBottomSplitOffsetZ-400], 400);
+        tcu([0,-200,topBottomSplitOffsetZ-400+1], 400);
     }
 }
 
@@ -145,6 +146,9 @@ module jig()
 
         topToBottomScrews();
     }
+
+    // Sacrificial layer at drill-guide hole:
+    tcy([0,0,pulleyWhipCtrZ-pulleyWhipOD/2-layerHeight], d=20, h=layerHeight);;
 }
 
 module drillGuideHole()
@@ -200,9 +204,10 @@ module clip(d=0)
 
 if(developmentRender)
 {
-	display() jigBottom();
-    display() translate([0,0,0.05]) jigTop();
-    displayGhost() screwGhost();
+    display() jigBottom();
+	// display() jigBottom();
+    // display() translate([0,0,10]) jigTop();
+    // displayGhost() screwGhost();
 
 	// display() jigBottom();
     // displayGhost() jigTop();
