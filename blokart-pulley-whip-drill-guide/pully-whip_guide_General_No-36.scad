@@ -148,7 +148,7 @@ module jig()
     }
 
     // Sacrificial layer at drill-guide hole:
-    tcy([0,0,pulleyWhipCtrZ-pulleyWhipOD/2-layerHeight], d=20, h=layerHeight);;
+    tcy([0,0,pulleyWhipCtrZ-pulleyWhipOD/2-layerHeight-pulleyWhipHoileBridgeSayCompensationZ], d=20, h=layerHeight);;
 }
 
 module drillGuideHole()
@@ -175,6 +175,9 @@ module caarriageBoltHeadsClearance()
     doubleX() tcy([carriageBoltHeadSpacingX/2-carriageBoltHeadDia/2+carriageBoltHeadDia, 0, -50], d=carriageBoltHeadDia, h=100);
 }
 
+// Compensate for the fact that the bridge of material at the top of the pulley-while hole will sag down a bit.
+pulleyWhipHoileBridgeSayCompensationZ = 0.2;
+
 module pulleyWhipHole()
 {
     translate([0,0,pulleyWhipCtrZ]) hull()
@@ -182,7 +185,7 @@ module pulleyWhipHole()
         rotate([-90,0,0]) tcy([0,0,-100], d=pulleyWhipOD, h=200);
         // f = cos(22.5);
         flatX = 9;
-        tcu([-flatX/2, -100, -pulleyWhipOD/2], [flatX, 200, pulleyWhipOD/2]);
+        tcu([-flatX/2, -100, -pulleyWhipOD/2-pulleyWhipHoileBridgeSayCompensationZ], [flatX, 200, pulleyWhipOD/2]);
     }
 }
 
@@ -193,7 +196,7 @@ module pulleyWhipClampSlot()
 
 module clip(d=0)
 {
-	tc([-200, -400-d, -50], 400);
+	// tc([-200, -400-d, -50], 400);
     // tcu([-200, -200, -400+d], 400);
 
     // Screw holes along X:
@@ -204,10 +207,12 @@ module clip(d=0)
 
 if(developmentRender)
 {
-    display() jigBottom();
-	// display() jigBottom();
-    // display() translate([0,0,10]) jigTop();
-    // displayGhost() screwGhost();
+    // display() jigBottom();
+
+	display() jigBottom();
+    display() jigTop();
+    displayGhost() screwGhost();
+    displayGhost() pulleyWhipGhost();
 
 	// display() jigBottom();
     // displayGhost() jigTop();
@@ -224,4 +229,9 @@ else
 module screwGhost()
 {
     translate([screwOffsetX, screwOffsetY, topBottomSplitOffsetZ-screwZ+effectiveScrewZ/2]) cylinder(d=screwDia, h=screwZ);
+}
+
+module pulleyWhipGhost()
+{
+    translate([0,0,pulleyWhipCtrZ]) rotate([-90,0,0]) tcy([0,0,-100], d=pulleyWhipOD, h=200);
 }
