@@ -31,6 +31,8 @@ jigBaseInsertCZ = 1;
 pullyWhipHoleBottomZ = 9;
 pulleyWhipCtrZ = pullyWhipHoleBottomZ+pulleyWhipOD/2;
 
+slotThickness = 2;
+
 baseCornerX = baseX/2 - baseCornerDia/2;
 baseCornerY = baseY/2 - baseCornerDia/2;
 
@@ -40,12 +42,14 @@ echo(str("insertOffsetY = ", insertOffsetY));
 upperY = 40;
 upperOD = pulleyWhipOD + 10;
 
+topBottomSplitOffsetZ = pulleyWhipCtrZ-slotThickness/2;
+
 module jigTop()
 {
     difference() 
     {
         jig();
-        tcu([-200,-200,pulleyWhipCtrZ-slotThickness/2-400], 400);
+        tcu([-200,-200,topBottomSplitOffsetZ-400], 400);
     }
 }
 
@@ -54,13 +58,22 @@ module jigBottom()
     difference() 
     {
         jig();
-        tcu([-200,-200,pulleyWhipCtrZ-slotThickness/2], 400);
+        tcu([-200,-200,topBottomSplitOffsetZ], 400);
     }
 }
 
 module topToBottomScrews()
 {
+    // m4 socket-head:
+    screwDia = 3.3;
+    screwHeadDia = 6.2;
+    screwNuteDia = 6.2;
+    screwZ = 20;
 
+    screwOffsetX = -45;
+    screwOffsetY = 45;
+
+    doubleY() tcy([screwOffsetX/2, screwOffsetY/2, -100], d=screwDia, h=200);
 }
 
 module jig()
@@ -125,8 +138,6 @@ module pulleyWhipHole()
         tcu([-flatX/2, -100, -pulleyWhipOD/2], [flatX, 200, pulleyWhipOD/2]);
     }
 }
-
-slotThickness = 2;
 
 module pulleyWhipClampSlot()
 {
