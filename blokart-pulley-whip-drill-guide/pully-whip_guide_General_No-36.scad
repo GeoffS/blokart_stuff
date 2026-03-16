@@ -163,7 +163,7 @@ module jig()
     {
         intersection() 
         {
-            translate([0,0,pulleyWhipCtrZ]) rotate([-90,0,0]) tcy([0,0,-200-plugScrewHoleDistanceFromEnd], d=pulleyWhipOD+2, h=200);
+            translate([0,0,pulleyWhipCtrZ]) rotate([-90,0,0]) tcy([0,0,-200-springPinHoleDistanceFromEnd], d=pulleyWhipOD+2, h=200);
             baseCore();
         }
         tcu([-200, -200, pulleyWhipCtrZ-slotThickness/2-nothing], 400);
@@ -251,7 +251,7 @@ module clip(d=0)
 
 if(developmentRender)
 {
-    // display() jigBottom();
+    display() jigBottom();
 
 	// display() jigBottom();
     // display() jigTop();
@@ -265,8 +265,8 @@ if(developmentRender)
 	// displayGhost() jigBottom();
     // display() jigTop();
 
-    display() jigBottom();
-    display() translate([0,0,10])jigTop();
+    // display() jigBottom();
+    // display() translate([0,0,10])jigTop();
 }
 else
 {
