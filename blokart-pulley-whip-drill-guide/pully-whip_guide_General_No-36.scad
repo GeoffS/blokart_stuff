@@ -57,7 +57,7 @@ screwZ = 20;
 screwOffsetX = -22;
 screwOffsetY = 22;
 
-clampBoltX = 17;
+clampBoltX = 19;
 clampBoltY = 0;
 
 module jigTop()
@@ -188,7 +188,22 @@ module drillGuideHole()
 module clampScrewHoleAndRecess()
 {
     clampBoltHoleDia = 6.6;
-    tcy([clampBoltX, clampBoltY,-100], d=clampBoltHoleDia, h=200);
+    translate([clampBoltX, clampBoltY, 0])
+    {
+        // Through hole:
+        tcy([0, 0,-100], d=clampBoltHoleDia, h=200);
+
+        // Carriage bolt head recess:
+        clampBoltHeadRecessDia = 15;
+        clampBoltHeadRecessZ = 4;
+        translate([0,0,-jigBaseZ+clampBoltHeadRecessZ])
+        {
+            // Recess for the round part of the head:
+            tcy([0,0,-100], d=15, h=100);
+            // Recess for the square-section:
+            tcy([0,0,-20+5], d=6.7*sqrt(2), h=20, $fn=4);
+        }
+    }
 }
 
 module jigSupportCutouts()
