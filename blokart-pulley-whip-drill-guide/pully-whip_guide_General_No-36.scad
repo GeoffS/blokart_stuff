@@ -77,6 +77,8 @@ module jigBottom()
 effectiveScrewZ = screwZ - screwThroughNutZ;
 echo(str("effectiveScrewZ = ", effectiveScrewZ));
 
+screwHeadRecessZ = topBottomSplitOffsetZ+effectiveScrewZ/2;
+
 module topToBottomScrews()
 {
     nutRecessCutoutInInsetDia = 8;
@@ -105,7 +107,7 @@ module topToBottomScrews()
         }
 
         // Screw-head recess (top):
-        tcy([0,0, topBottomSplitOffsetZ+effectiveScrewZ/2], d=screwHeadDia, h=200);
+        tcy([0,0,screwHeadRecessZ], d=screwHeadDia, h=200);
         translate([0,0,baseZ-screwHeadDia/2-1]) cylinder(d2=20, d1=0, h=10);
     }
 }
@@ -148,7 +150,10 @@ module jig()
     }
 
     // Sacrificial layer at drill-guide hole:
-    tcy([0,0,pulleyWhipCtrZ-pulleyWhipOD/2-layerHeight-pulleyWhipHoileBridgeSayCompensationZ], d=20, h=layerHeight);;
+    tcy([0,0,pulleyWhipCtrZ-pulleyWhipOD/2-layerHeight-pulleyWhipHoileBridgeSayCompensationZ], d=20, h=layerHeight);
+
+    // Sacrificial layer at screw-head recesses:
+    doubleY() translate([screwOffsetX, screwOffsetY, screwHeadRecessZ-layerHeight]) tcy([0,0,0], d=4, h=layerHeight);
 }
 
 module drillGuideHole()
@@ -200,7 +205,7 @@ module clip(d=0)
     // tcu([-200, -200, -400+d], 400);
 
     // Screw holes along X:
-    // tcu([screwOffsetX-400+d, -200, -200], 400);
+    tcu([screwOffsetX-400+d, -200, -200], 400);
     // Screw hole along X:
     // tcu([screwOffsetX-400+d, 0, -200], 400);
 }
