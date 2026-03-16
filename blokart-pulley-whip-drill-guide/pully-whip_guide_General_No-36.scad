@@ -1,6 +1,8 @@
 include <../../OpenSCAD_Lib/MakeInclude.scad>
 include <../../OpenSCAD_Lib/chamferedCylinders.scad>
 
+include <drillLocations.scad>
+
 firstLayerHeight = 0.2;
 layerHeight = 0.2;
 
@@ -121,7 +123,7 @@ module jig()
             difference()
             {
                 // Base:
-                hull() doubleX() doubleY() translate([baseCornerX, baseCornerY, 0]) simpleChamferedCylinderDoubleEnded(d=baseCornerDia, h=baseZ, cz=baseCZ);
+                baseCore();
 
                 // Cut-away for the jig supports:
                 jigSupportCutouts();
@@ -149,11 +151,27 @@ module jig()
         topToBottomScrews();
     }
 
+    // Stop for the pulley-whip to locate the hole:
+    difference()
+    {
+        intersection() 
+        {
+            translate([0,0,pulleyWhipCtrZ]) rotate([-90,0,0]) tcy([0,0,-200-plugScrewHoleDistanceFromEnd], d=pulleyWhipOD+2, h=200);
+            baseCore();
+        }
+        tcu([-200, -200, pulleyWhipCtrZ], 400);
+    }
+
     // Sacrificial layer at drill-guide hole:
     tcy([0,0,pulleyWhipCtrZ-pulleyWhipOD/2-layerHeight-pulleyWhipHoileBridgeSayCompensationZ], d=20, h=layerHeight);
 
     // Sacrificial layer at screw-head recesses:
     doubleY() translate([screwOffsetX, screwOffsetY, screwHeadRecessZ-layerHeight]) tcy([0,0,0], d=4, h=layerHeight);
+}
+
+module baseCore()
+{
+     hull() doubleX() doubleY() translate([baseCornerX, baseCornerY, 0]) simpleChamferedCylinderDoubleEnded(d=baseCornerDia, h=baseZ, cz=baseCZ);
 }
 
 module drillGuideHole()
@@ -205,19 +223,19 @@ module clip(d=0)
     // tcu([-200, -200, -400+d], 400);
 
     // Screw holes along X:
-    tcu([screwOffsetX-400+d, -200, -200], 400);
+    // tcu([screwOffsetX-400+d, -200, -200], 400);
     // Screw hole along X:
     // tcu([screwOffsetX-400+d, 0, -200], 400);
 }
 
 if(developmentRender)
 {
-    // display() jigBottom();
+    display() jigBottom();
 
-	display() jigBottom();
-    display() jigTop();
-    displayGhost() screwGhost();
-    displayGhost() pulleyWhipGhost();
+	// display() jigBottom();
+    // display() jigTop();
+    // displayGhost() screwGhost();
+    // displayGhost() pulleyWhipGhost();
 
 	// display() jigBottom();
     // displayGhost() jigTop();
