@@ -46,9 +46,9 @@ topBottomSplitOffsetZ = pulleyWhipCtrZ-slotThickness/2;
 echo(str("topBottomSplitOffsetZ = ", topBottomSplitOffsetZ));
 
 // m4 socket-head:
-screwDia = 3.3;
-screwHeadDia = 6.2;
-screwNuteDia = 6.2;
+screwDia = 3.4;
+screwHeadDia = 6.3;
+screwNuteDia = 6.3;
 screwThroughNutZ = 4;
 screwZ = 20;
 
