@@ -215,7 +215,7 @@ module jigSupportCutouts()
 module caarriageBoltHeadsClearance()
 {
     carriageBoltHeadDia = 30;
-    carriageBoltHeadSpacingX = 65;
+    carriageBoltHeadSpacingX = 64;
     doubleX() tcy([carriageBoltHeadSpacingX/2-carriageBoltHeadDia/2+carriageBoltHeadDia, 0, -50], d=carriageBoltHeadDia, h=100);
 }
 
