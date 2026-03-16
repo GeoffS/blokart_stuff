@@ -167,9 +167,6 @@ module jig()
         tcu([-200, -200, pulleyWhipCtrZ], 400);
     }
 
-    // Sacrificial layer at drill-guide hole:
-    tcy([0,0,pulleyWhipCtrZ-pulleyWhipOD/2-layerHeight-pulleyWhipHoileBridgeSayCompensationZ], d=20, h=layerHeight);
-
     // Sacrificial layer at screw-head recesses:
     doubleY() translate([screwOffsetX, screwOffsetY, screwHeadRecessZ-layerHeight]) tcy([0,0,0], d=4, h=layerHeight);
 }
@@ -182,12 +179,10 @@ module baseCore()
 module drillGuideHole()
 {
     drilOD = 9.7;
-    // Through-hole:
-    tcy([0,0,-50], d=drilOD, h=200);
+    // Hole for drill bit:
+    tcy([0,0,pulleyWhipCtrZ], d=drilOD, h=200);
     // Top chamfer:
     translate([0,0,baseZ-drilOD/2-1]) cylinder(d2=30, d1=0, h=15);
-    // Bottom  chamfer:
-    translate([0,0,-jigBaseZ-15+drilOD/2+1]) cylinder(d1=30, d2=0, h=15);
 }
 
 module clampScrewHoleAndRecess()
