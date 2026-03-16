@@ -57,6 +57,9 @@ screwZ = 20;
 screwOffsetX = -22;
 screwOffsetY = 22;
 
+clampBoltX = 17;
+clampBoltY = 0;
+
 module jigTop()
 {
     difference() 
@@ -149,6 +152,8 @@ module jig()
         pulleyWhipClampSlot();
 
         topToBottomScrews();
+
+        clampScrewHoleAndRecess();
     }
 
     // Stop for the pulley-whip to locate the hole:
@@ -185,6 +190,12 @@ module drillGuideHole()
     translate([0,0,-jigBaseZ-15+drilOD/2+1]) cylinder(d1=30, d2=0, h=15);
 }
 
+module clampScrewHoleAndRecess()
+{
+    clampBoltHoleDia = 6.6;
+    tcy([clampBoltX, clampBoltY,-100], d=clampBoltHoleDia, h=200);
+}
+
 module jigSupportCutouts()
 {
     doubleX() translate([jigBaseOpeningX/2, 0, 0]) rotate([0,45,0]) tcu([0, -jigRodSupportY/2, -1], [100, jigRodSupportY, 100]);
@@ -219,7 +230,7 @@ module pulleyWhipClampSlot()
 
 module clip(d=0)
 {
-	// tc([-200, -400-d, -50], 400);
+	tc([-200, -400-d, -50], 400);
     // tcu([-200, -200, -400+d], 400);
 
     // Screw holes along X:
@@ -230,12 +241,13 @@ module clip(d=0)
 
 if(developmentRender)
 {
-    display() jigBottom();
+    // display() jigBottom();
 
-	// display() jigBottom();
-    // display() jigTop();
+	display() jigBottom();
+    display() jigTop();
     // displayGhost() screwGhost();
     // displayGhost() pulleyWhipGhost();
+    displayGhost() clampBoltGhost();
 
 	// display() jigBottom();
     // displayGhost() jigTop();
@@ -257,4 +269,16 @@ module screwGhost()
 module pulleyWhipGhost()
 {
     translate([0,0,pulleyWhipCtrZ]) rotate([-90,0,0]) tcy([0,0,-100], d=pulleyWhipOD, h=200);
+}
+
+module clampBoltGhost()
+{
+    boltLength = 74;
+    translate([clampBoltX, clampBoltY, -jigBaseZ])
+    {
+        // Bolt:
+        tcy([0,0,0], d=6.35, h=boltLength);
+        // Wing-nut:
+        tcy([0,0,0], d=19, h=5);
+    }
 }
