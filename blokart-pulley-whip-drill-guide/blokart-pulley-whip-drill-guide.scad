@@ -9,10 +9,8 @@ include <../../OpenSCAD_Lib/chamferedCylinders.scad>
 // makePlugThrough = false;
 makeSandingJig = false;
 
-plugScrewHoleDistanceFromEnd = 13.8; //12.5;
+include <drillLocations.scad>
 pluScrewDrillBitDia = 2.5; //1.6; // 1/16" drill = #4 screw
-
-springPinHoleDistanceFromEnd = 24.3;
 springPinHoleBitDia = 9.3;
 
 pulleyWhipOD = 22.4; // 7/8" nominal
