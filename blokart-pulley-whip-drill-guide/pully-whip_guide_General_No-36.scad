@@ -166,7 +166,7 @@ module jig()
             translate([0,0,pulleyWhipCtrZ]) rotate([-90,0,0]) tcy([0,0,-200-plugScrewHoleDistanceFromEnd], d=pulleyWhipOD+2, h=200);
             baseCore();
         }
-        tcu([-200, -200, pulleyWhipCtrZ], 400);
+        tcu([-200, -200, pulleyWhipCtrZ-slotThickness/2-nothing], 400);
     }
 
     // Sacrificial layer at screw-head recesses:
@@ -240,7 +240,7 @@ module pulleyWhipClampSlot()
 
 module clip(d=0)
 {
-	tc([-200, -400-d, -50], 400);
+	// tc([-200, -400-d, -50], 400);
     // tcu([-200, -200, -400+d], 400);
 
     // Screw holes along X:
@@ -253,17 +253,20 @@ if(developmentRender)
 {
     // display() jigBottom();
 
-	display() jigBottom();
-    display() jigTop();
-    // displayGhost() screwGhost();
-    // displayGhost() pulleyWhipGhost();
-    displayGhost() clampBoltGhost();
+	// display() jigBottom();
+    // display() jigTop();
+    // // displayGhost() screwGhost();
+    // // displayGhost() pulleyWhipGhost();
+    // displayGhost() clampBoltGhost();
 
 	// display() jigBottom();
     // displayGhost() jigTop();
     
 	// displayGhost() jigBottom();
     // display() jigTop();
+
+    display() jigBottom();
+    display() translate([0,0,10])jigTop();
 }
 else
 {
