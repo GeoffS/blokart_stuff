@@ -269,11 +269,11 @@ module pulleyWhipGhost()
 module clampBoltGhost()
 {
     boltLength = 74;
-    translate([clampBoltX, clampBoltY, -jigBaseZ])
+    translate([clampBoltX, clampBoltY, 0])
     {
         // Bolt:
-        tcy([0,0,0], d=6.35, h=boltLength);
+        tcy([0,0,-jigBaseZ], d=6.35, h=boltLength);
         // Wing-nut:
-        tcy([0,0,0], d=19, h=5);
+        tcy([0,0,baseZ], d=19, h=5);
     }
 }
