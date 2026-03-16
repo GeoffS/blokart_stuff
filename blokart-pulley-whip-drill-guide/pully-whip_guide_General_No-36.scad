@@ -59,6 +59,8 @@ screwOffsetY = 22;
 
 clampBoltX = 19;
 clampBoltY = 0;
+clampBoltHeadRecessDia = 16;
+clampBoltHeadRecessZ = 17;
 
 module jigTop()
 {
@@ -194,12 +196,10 @@ module clampScrewHoleAndRecess()
         tcy([0, 0,-100], d=clampBoltHoleDia, h=200);
 
         // Carriage bolt head recess:
-        clampBoltHeadRecessDia = 15;
-        clampBoltHeadRecessZ = 4;
         translate([0,0,-jigBaseZ+clampBoltHeadRecessZ])
         {
             // Recess for the round part of the head:
-            tcy([0,0,-100], d=15, h=100);
+            tcy([0,0,-100], d=clampBoltHeadRecessDia, h=100);
             // Recess for the square-section:
             tcy([0,0,-20+5], d=6.7*sqrt(2), h=20, $fn=4);
         }
@@ -288,7 +288,10 @@ module clampBoltGhost()
     {
         // Bolt:
         tcy([0,0,-jigBaseZ], d=6.35, h=boltLength);
-        // Wing-nut:
+        // Wing-nut base:
         tcy([0,0,baseZ], d=19, h=5);
+        // // Wing-nut wings:
+        // wingWidth = 25;
+        // tcu([], []);
     }
 }
