@@ -43,13 +43,16 @@ module plug(plugOD)
     plugScrewDrillBitDia = 2.2;
     translate([0,0,plugScrewHoleDistanceFromEnd])
         rotate([0,90,0])
-            tcy([0,0,0], d=plugScrewDrillBitDia, h=50);
+        {
+          tcy([0,0,0], d=plugScrewDrillBitDia, h=50);
+          translate([0,0,plugOD/2-plugScrewDrillBitDia/2-0.8]) cylinder(d2=10, d1=0, h=5);
+        }
   }
 }
 
 module clip(d=0)
 {
-  // tc([-200, -400-d, -50], 400);
+  tc([-200, -400-d, -50], 400);
 }
 
 if(developmentRender)
