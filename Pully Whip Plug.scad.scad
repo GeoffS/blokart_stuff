@@ -2,10 +2,14 @@ include <../OpenSCAD_Lib/MakeInclude.scad>
 use <../OpenSCAD_Lib/torus.scad>
 include <blokart-pulley-whip-drill-guide/drillLocations.scad>
 
-pwOD = 22;
-pwID = 17.4;
+makeBIL_Tube = false;
+makeCF_Tube = false;
 
-plugOD = pwID;
+pwOD = 22;
+pwID_BIL = 17.4;
+pw_ID_CF = 17.9;
+
+// plugOD = pwID;
 plugID = 6;
 plugInsidePullyWhipLen = 25;
 bottomOutsideChamfer = 2;
@@ -15,8 +19,9 @@ plugTorusOutsideOD = pwOD;
 plugTorusOutsideDia = (plugTorusOutsideOD - plugID)/2;
 plugTorusOutsideRadius = plugTorusOutsideDia/2;
 
-module plug()
+module plug(plugOD)
 {
+  echo(str("plugOD = ", plugOD));
   difference()
   {
     union()
@@ -35,7 +40,7 @@ module plug()
     translate([0,0,-1]) cylinder(d1=d1, d2=0, h=d1/2);
 
     // Hole for the screw:
-    plugScrewDrillBitDia = 2.5;
+    plugScrewDrillBitDia = 2.0;
     translate([0,0,plugScrewHoleDistanceFromEnd])
         rotate([0,90,0])
             tcy([0,0,0], d=plugScrewDrillBitDia, h=50);
@@ -49,9 +54,11 @@ module clip(d=0)
 
 if(developmentRender)
 {
-    display() plug();
+    display() plug(pw_ID_CF);
+    display() translate([-40,0,0]) plug(pwID_BIL);
 }
 else
 {
-	rotate([180,0,0]) plug();
+	if(makeBIL_Tube)rotate([180,0,0]) plug(pwID_BIL);
+  if(makeCF_Tube)rotate([180,0,0]) plug(pw_ID_CF);
 }
