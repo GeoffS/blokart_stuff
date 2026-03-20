@@ -1,5 +1,6 @@
 include <../OpenSCAD_Lib/MakeInclude.scad>
 use <../OpenSCAD_Lib/torus.scad>
+include <blokart-pulley-whip-drill-guide/drillLocations.scad>
 
 pwOD = 22;
 pwID = 17.4;
@@ -41,6 +42,12 @@ module plug()
     translate([0,0,-10]) cylinder(d=plugID, h=100);
     d1 = plugID+bottomInsideChamfer+3;
     translate([0,0,-1]) cylinder(d1=d1, d2=0, h=d1/2);
+
+    // Hole for the screw:
+    plugScrewDrillBitDia = 2.5;
+    translate([0,0,plugScrewHoleDistanceFromEnd])
+        rotate([0,90,0])
+            tcy([0,0,0], d=plugScrewDrillBitDia, h=50);
   }
 }
 
