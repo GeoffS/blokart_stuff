@@ -40,7 +40,7 @@ module plug(plugOD)
     translate([0,0,-1]) cylinder(d1=d1, d2=0, h=d1/2);
 
     // Hole for the screw:
-    plugScrewDrillBitDia = 2.25;
+    plugScrewDrillBitDia = 2.2;
     translate([0,0,plugInsidePullyWhipLen-plugScrewHoleDistanceFromEnd])
         rotate([0,90,0])
         {
