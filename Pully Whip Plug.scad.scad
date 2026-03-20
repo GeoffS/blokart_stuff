@@ -11,10 +11,6 @@ plugInsidePullyWhipLen = 25;
 bottomOutsideChamfer = 2;
 bottomInsideChamfer = 1;
 
-/* plugTorusInsideDia = 3;
-plugTorusInsideOD = plugID + 2*plugTorusInsideDia;
-plugTorusInsideRadius = plugTorusInsideDia/2; */
-
 plugTorusOutsideOD = pwOD;
 plugTorusOutsideDia = (plugTorusOutsideOD - plugID)/2;
 plugTorusOutsideRadius = plugTorusOutsideDia/2;
@@ -33,11 +29,6 @@ module plug()
         translate([-50, -50, plugTorusOutsideRadius*0.9]) cube(100);
         translate([-50, -50, -100]) cube(100);
       }
-      /* translate([0,0,plugInsidePullyWhipLen]) difference()
-      {
-        torus3a(plugTorusInsideOD, plugTorusInsideDia);
-        translate([-50, -50, -100]) cube(100);
-      } */
     }
     translate([0,0,-10]) cylinder(d=plugID, h=100);
     d1 = plugID+bottomInsideChamfer+3;
