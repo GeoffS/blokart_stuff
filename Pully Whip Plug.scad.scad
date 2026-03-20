@@ -5,7 +5,7 @@ include <blokart-pulley-whip-drill-guide/drillLocations.scad>
 makeBIL_Tube = false;
 makeCF_Tube = false;
 
-pwOD = 22;
+pwOD = 22.2;
 pwID_BIL = 17.4;
 pw_ID_CF = 17.9;
 
@@ -40,8 +40,8 @@ module plug(plugOD)
     translate([0,0,-1]) cylinder(d1=d1, d2=0, h=d1/2);
 
     // Hole for the screw:
-    plugScrewDrillBitDia = 2.2;
-    translate([0,0,plugScrewHoleDistanceFromEnd])
+    plugScrewDrillBitDia = 2.25;
+    translate([0,0,plugInsidePullyWhipLen-plugScrewHoleDistanceFromEnd])
         rotate([0,90,0])
         {
           tcy([0,0,0], d=plugScrewDrillBitDia, h=50);
