@@ -70,6 +70,9 @@ module kart()
 
             // Front wheel:
             translate([0, wheelbase*0.9, 0]) wheel();
+
+            // Sail stops:
+            doubleX() translate([8.3,0,0]) simpleChamferedCylinder(d=rearAxleY-2*frameCylCZ, h=kartZ+1.2, cz=2*firstLayerHeight);
         }
 
         // // Top-Down Magnet Recesses:
@@ -105,30 +108,41 @@ module pieceCyl(t, d)
     translate(t) simpleChamferedCylinderDoubleEnded(d=d, h=kartZ, cz=frameCylCZ);
 }
 
-sailZ = firstLayerHeight + 9*layerHeight;
-echo(str("sailZ = ", sailZ));
 
-module sail()
+perimeterWidth = 0.42;
+sailZ = firstLayerHeight + 9*layerHeight;
+sailWidth = 4*perimeterWidth;
+
+pivotHoleDia = 2.3;
+pivorOD = pivotHoleDia + 4*perimeterWidth;
+
+echo(str("sailZ = ", sailZ));
+echo(str("pivorOD = ", pivorOD));
+
+module sail(a=0)
 {
     translate([0, mastPosition, 0])
     {
-        difference() 
+        rotate([0,0,a]) difference() 
         {
             union()
             {
                 // Mast:
-                cylinder(d=3.8, h=sailZ);
+                hull()
+                {
+                    cylinder(d=pivorOD, h=sailZ);
+                    tcy([0, -3.5, 0], d=sailWidth, h=sailZ);
+                }
                 // Sail:
                 hull()
                 {
-                    sailWidth = 4*0.42; // 4 perimeters
                     cylinder(d=sailWidth, h=sailZ);
                     tcy([0, -mastPosition-6, 0], d=sailWidth, h=sailZ);
                 }
             }
             
             // Hole for m2 mast pivot screw:
-            tcy([0,0,-10], d=2.3, h=100);
+            tcy([0,0,-10], d=pivotHoleDia, h=100);
         }
     }
 }
@@ -141,10 +155,11 @@ module clip(d=0)
 
 if(developmentRender)
 {
-	// display() kart();
+	display() kart();
+    displayGhost() translate([0,0,kartZ]) sail(a=20);
 
-    display() sail();
-    displayGhost() translate([0,0,-kartZ]) kart();
+    // display() sail();
+    // displayGhost() translate([0,0,-kartZ]) kart();
 }
 else
 {
