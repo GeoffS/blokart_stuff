@@ -23,6 +23,8 @@ frameWidthFront = 12*scaleXY; // est.
 seatbackExtension = 9.5*scaleXY;
 frameLength = wheelbase - wheelLength/2 + wheelWidth;
 
+mastPosition = 30*scaleXY; // est.
+
 rearTrack = frameWidthRear + 2*13.4*scaleXY;
 echo(str("rearTrack = ", rearTrack));
 
@@ -71,6 +73,9 @@ module kart()
         // Magnet recesses:
         magnetRecess(y= 0, magnetDia=10.2);
         magnetRecess(y=35, magnetDia= 5.2);
+
+        // Mast pivot hole:
+        tcy([0, mastPosition, firstLayerHeight+2*layerHeight], d=2, h=100);
     }
 }
 
@@ -91,7 +96,8 @@ module pieceCyl(t, d)
 
 module clip(d=0)
 {
-	//tc([-200, -400-d, -10], 400);
+	// tc([-200, -400-d, -10], 400);
+    // tcu([0-d, -200, -10], 400);
 }
 
 if(developmentRender)
