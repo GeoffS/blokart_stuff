@@ -10,8 +10,9 @@ rearTrack_inch = frameWidthRear_inch + 2*13.4;
 scaleXY = 40/rearTrack_inch;
 echo(str("scaleXY = ", scaleXY));
 
-wheelWidth = 4.25*scaleXY;
-wheelLength = 14*scaleXY;
+wheelScaling = 1.4; // Make the wheels look better.
+wheelWidth = 4.25*scaleXY*wheelScaling;
+wheelLength = 14*scaleXY*wheelScaling;
 
 wheelbase = 65*scaleXY;
 
@@ -48,7 +49,12 @@ module kart()
 
         // Rear axle:
         rearAxleY = wheelLength/3;
-        hull() doubleX() pieceCyl([-rearTrack/2, 0, 0], d=wheelWidth);
+        difference()
+        {
+            hull() doubleX() pieceCyl([rearTrack/2, 0, 0], d=4);
+            doubleX() tcu([rearTrack/2, -200, -200], 400);
+        }
+        // hull() doubleX() pieceCyl([-rearTrack/2, 0, 0], d=4);
 
         // Rear wheels:
         doubleX() translate([rearTrack/2, 0, 0]) wheel();
