@@ -69,18 +69,27 @@ module kart()
             translate([0, wheelbase*0.9, 0]) wheel();
         }
 
-        // Magnet recesses:
-        magnetRecess(y= 0, magnetDia=10.2);
-        magnetRecess(y=frameLength-5.2, magnetDia= 5.2);
+        // // Top-Down Magnet Recesses:
+        // magnetRecessTop(y=0, magnetDia=10.2);
+        // magnetRecessTop(y=frameLength-5.2, magnetDia= 5.2);
+
+        // Bottom-Up Magnet Recesses:
+        magnetRecessBottom(y=0, magnetDia=10.2);
+        magnetRecessBottom(y=frameLength-5.2, magnetDia= 5.2);
 
         // Mast pivot hole:
         tcy([0, mastPosition, firstLayerHeight+2*layerHeight], d=2, h=100);
     }
 }
 
-module magnetRecess(y, magnetDia)
+module magnetRecessTop(y, magnetDia)
 {
     tcy([0, y, firstLayerHeight], d=magnetDia, h=100);
+}
+
+module magnetRecessBottom(y, magnetDia)
+{
+    tcy([0, y, -100+magnetRecessZ], d=magnetDia, h=100);
 }
 
 module wheel()
