@@ -35,7 +35,7 @@ module kart()
 {   
     scale([1, 1, 1]) 
     {  
-        // Frame trapazoid:
+        // Frame trapezoid:
         hull()
         {
             frameCornerDia = 4;
