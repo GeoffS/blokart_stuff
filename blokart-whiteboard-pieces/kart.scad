@@ -4,6 +4,9 @@ include <../../OpenSCAD_Lib/chamferedCylinders.scad>
 firstLayerHeight = 0.2;
 layerHeight = 0.2;
 
+makeBase = false;
+makeSail = false;
+
 magnetRecessZ = 2.1;
 
 frameWidthRear_inch = 28;
@@ -102,6 +105,34 @@ module pieceCyl(t, d)
     translate(t) simpleChamferedCylinderDoubleEnded(d=d, h=kartZ, cz=frameCylCZ);
 }
 
+sailZ = firstLayerHeight + 9*layerHeight;
+echo(str("sailZ = ", sailZ));
+
+module sail()
+{
+    translate([0, mastPosition, 0])
+    {
+        difference() 
+        {
+            union()
+            {
+                // Mast:
+                cylinder(d=3.8, h=sailZ);
+                // Sail:
+                hull()
+                {
+                    sailWidth = 4*0.42; // 4 perimeters
+                    cylinder(d=sailWidth, h=sailZ);
+                    tcy([0, -mastPosition-6, 0], d=sailWidth, h=sailZ);
+                }
+            }
+            
+            // Hole for m2 mast pivot screw:
+            tcy([0,0,-10], d=2.3, h=100);
+        }
+    }
+}
+
 module clip(d=0)
 {
 	// tc([-200, -400-d, -10], 400);
@@ -110,9 +141,13 @@ module clip(d=0)
 
 if(developmentRender)
 {
-	display() kart();
+	// display() kart();
+
+    display() sail();
+    displayGhost() translate([0,0,-kartZ]) kart();
 }
 else
 {
-	kart();
+	if(makeBase) kart();
+    if(makeSail) sail();
 }
