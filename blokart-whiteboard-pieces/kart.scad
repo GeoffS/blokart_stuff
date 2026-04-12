@@ -38,20 +38,21 @@ module kart()
         // Frame trapazoid:
         hull()
         {
-            // tcu([-frameWidthFront/2, 0, 0], [frameWidthFront, frameLength, kartZ]);
-            // tcu([-frameWidthRear/2, 0, 0], [frameWidthRear, 1, kartZ]);
-            frameCornerDia = 3;
+            frameCornerDia = 4;
             fcd2 = frameCornerDia/2;
-            doubleX() pieceCyl([frameWidthFront/2-fcd2, frameLength, 0], d=frameCornerDia);
             doubleX() pieceCyl([frameWidthRear/2-fcd2, frameCylCZ, 0], d=frameCornerDia);
+            doubleX() pieceCyl([frameWidthFront/2-fcd2, frameLength-fcd2, 0], d=frameCornerDia);
+
+            doubleX() pieceCyl([frameWidthRear/2*0.85-fcd2, -seatbackExtension-fcd2, 0], d=frameCornerDia);
         }
 
         // Rear axle:
         rearAxleY = wheelLength/3;
-        // %tcu([-rearTrack/2, -rearAxleY/2, 0], [rearTrack, rearAxleY, kartZ]);
         hull() doubleX() pieceCyl([-rearTrack/2, 0, 0], d=wheelWidth);
+
         // Rear wheels:
         doubleX() translate([rearTrack/2, 0, 0]) wheel();
+
         // Front wheel:
         translate([0, wheelbase, 0]) wheel();
     }
