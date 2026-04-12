@@ -16,19 +16,19 @@ wheelScaling = 1.4; // Make the wheels look better.
 wheelWidth = 4.25*scaleXY*wheelScaling;
 wheelLength = 14*scaleXY*wheelScaling;
 
-wheelbase = 65*scaleXY;
+wheelbase = 65*scaleXY * 0.75;
 
 frameWidthRear = frameWidthRear_inch*scaleXY;
 frameWidthFront = 12*scaleXY; // est.
-seatbackExtension = 9.5*scaleXY;
+seatbackExtension = 9.5*scaleXY*0.75;
 frameLength = wheelbase - wheelLength/2 + wheelWidth;
 
-mastPosition = 30*scaleXY; // est.
+mastPosition = 28*scaleXY; // est.
 
-rearTrack = frameWidthRear + 2*13.4*scaleXY;
+rearTrack = frameWidthRear + 2*13.4*scaleXY*0.85;
 echo(str("rearTrack = ", rearTrack));
 
-kartZ = max(firstLayerHeight + 15*layerHeight, firstLayerHeight+magnetRecessZ);
+kartZ = max(firstLayerHeight + 20*layerHeight, firstLayerHeight+magnetRecessZ);
 echo(str("kartZ = ", kartZ));
 
 echo(str("wheelWidth = ", wheelWidth));
@@ -55,24 +55,23 @@ module kart()
             }
 
             // Rear axle:
-            rearAxleY = wheelLength/3;
+            rearAxleY = wheelLength/2.8;
             difference()
             {
-                hull() doubleX() pieceCyl([rearTrack/2, 0, 0], d=4);
+                hull() doubleX() pieceCyl([rearTrack/2, 0, 0], d=rearAxleY);
                 doubleX() tcu([rearTrack/2, -200, -200], 400);
             }
-            // hull() doubleX() pieceCyl([-rearTrack/2, 0, 0], d=4);
 
             // Rear wheels:
             doubleX() translate([rearTrack/2, 0, 0]) wheel();
 
             // Front wheel:
-            translate([0, wheelbase, 0]) wheel();
+            translate([0, wheelbase*0.9, 0]) wheel();
         }
 
         // Magnet recesses:
         magnetRecess(y= 0, magnetDia=10.2);
-        magnetRecess(y=35, magnetDia= 5.2);
+        magnetRecess(y=frameLength-5.2, magnetDia= 5.2);
 
         // Mast pivot hole:
         tcy([0, mastPosition, firstLayerHeight+2*layerHeight], d=2, h=100);
@@ -91,7 +90,7 @@ module wheel()
 
 module pieceCyl(t, d)
 {
-    translate(t) simpleChamferedCylinder(d=d, h=kartZ, cz=frameCylCZ);
+    translate(t) simpleChamferedCylinderDoubleEnded(d=d, h=kartZ, cz=frameCylCZ);
 }
 
 module clip(d=0)
