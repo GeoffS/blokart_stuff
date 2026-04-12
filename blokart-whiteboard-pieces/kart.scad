@@ -9,7 +9,7 @@ magnetRecessZ = 2.1;
 frameWidthRear_inch = 28;
 rearTrack_inch = frameWidthRear_inch + 2*13.4;
 
-scaleXY = 40/rearTrack_inch;
+scaleXY = 33/rearTrack_inch;
 echo(str("scaleXY = ", scaleXY));
 
 wheelScaling = 1.4; // Make the wheels look better.
