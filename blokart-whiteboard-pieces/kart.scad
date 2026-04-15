@@ -6,6 +6,8 @@ layerHeight = 0.2;
 
 makeBase_sm = false;
 makeSail_sm = false;
+makeBase_med = false;
+makeSail_med = false;
 
 magnetRecessZ = 2.1;
 
@@ -40,9 +42,36 @@ $fn = 128;
 
 frameCylCZ = 1;
 
+scaleMedium = 2;
+
 module kart_small()
 {
-    kartCore();
+    difference()
+    {
+        kartCore();
+        
+        // Bottom-Up Magnet Recesses:
+        magnetRecessBottom(y=0, magnetDia=10.2);
+        magnetRecessBottom(y=frameLength-5.2, magnetDia= 5.2);
+
+        // Mast pivot hole:
+        tcy([0, mastPosition, firstLayerHeight+2*layerHeight], d=2, h=100);
+    }
+}
+
+module kart_medium()
+{
+    difference()
+    {
+        scale(scaleMedium) kartCore();
+        
+        // Bottom-Up Magnet Recesses:
+        magnetRecessBottom(y= 0, magnetDia=10.2);
+        magnetRecessBottom(y=25, magnetDia=10.2);
+
+        // Mast pivot hole:
+        tcy([0, mastPosition*scaleMedium, firstLayerHeight+2*layerHeight], d=3, h=100);
+    }
 }
 
 module kartCore()
@@ -84,12 +113,12 @@ module kartCore()
         // magnetRecessTop(y=0, magnetDia=10.2);
         // magnetRecessTop(y=frameLength-5.2, magnetDia= 5.2);
 
-        // Bottom-Up Magnet Recesses:
-        magnetRecessBottom(y=0, magnetDia=10.2);
-        magnetRecessBottom(y=frameLength-5.2, magnetDia= 5.2);
+        // // Bottom-Up Magnet Recesses:
+        // magnetRecessBottom(y=0, magnetDia=10.2);
+        // magnetRecessBottom(y=frameLength-5.2, magnetDia= 5.2);
 
-        // Mast pivot hole:
-        tcy([0, mastPosition, firstLayerHeight+2*layerHeight], d=2, h=100);
+        // // Mast pivot hole:
+        // tcy([0, mastPosition, firstLayerHeight+2*layerHeight], d=2, h=100);
     }
 }
 
@@ -115,44 +144,68 @@ module pieceCyl(t, d)
 
 
 perimeterWidth = 0.42;
-sailZ = firstLayerHeight + 9*layerHeight;
-sailWidth = 4*perimeterWidth;
-
-pivotHoleDia = 2.3;
-pivorOD = pivotHoleDia + 4*perimeterWidth;
-
-echo(str("sailZ = ", sailZ));
-echo(str("pivorOD = ", pivorOD));
 
 module sail_small(a=0)
 {
-    sailCore(a);
+    pivotHoleDia = 2.3;
+
+    difference()
+    {
+        sailCore(
+            scale = 1,
+            angle = a, 
+            pivotOD = pivotHoleDia + 4*perimeterWidth,
+            sailZ = firstLayerHeight + 9*layerHeight,
+            sailWidth = 4*perimeterWidth)
+        {
+            // Hole for m2 mast pivot screw:
+            tcy([0,0,-10], d=pivotHoleDia, h=100);
+        }
+            
+        
+    }
 }
 
-module sailCore(a)
+module sail_medium(a=0)
 {
-    translate([0, mastPosition, 0])
+    pivotHoleDia = 3.4;
+
+    sailCore(
+            scale = scaleMedium,
+            angle = a, 
+            pivotOD = pivotHoleDia + 8*perimeterWidth,
+            sailZ = firstLayerHeight + 13*layerHeight,
+            sailWidth = 6*perimeterWidth)
     {
-        rotate([0,0,a]) difference() 
+        // Hole for m3 mast pivot screw:
+        tcy([0,0,-10], d=pivotHoleDia, h=100);
+    }
+}
+
+module sailCore(scale, angle, pivotOD, sailZ, sailWidth)
+{
+    translate([0, mastPosition*scale, 0])
+    {
+        rotate([0,0,angle]) difference() 
         {
             union()
             {
                 // Mast:
                 hull()
                 {
-                    cylinder(d=pivorOD, h=sailZ);
-                    tcy([0, -3.5, 0], d=sailWidth, h=sailZ);
+                    cylinder(d=pivotOD, h=sailZ);
+                    tcy([0, -3.5*scale, 0], d=sailWidth, h=sailZ);
                 }
                 // Sail:
                 hull()
                 {
                     cylinder(d=sailWidth, h=sailZ);
-                    tcy([0, -mastPosition-6, 0], d=sailWidth, h=sailZ);
+                    tcy([0, (-mastPosition-6)*scale, 0], d=sailWidth, h=sailZ);
                 }
             }
-            
-            // Hole for m2 mast pivot screw:
-            tcy([0,0,-10], d=pivotHoleDia, h=100);
+
+            // Subtractive bits:
+            children();
         }
     }
 }
@@ -165,8 +218,16 @@ module clip(d=0)
 
 if(developmentRender)
 {
-	display() kart_small();
-    displayGhost() translate([0,0,kartZ]) sail_small(a=20);
+    display() kart_medium();
+    displayGhost() translate([0,0,kartZ*scaleMedium]) sail_medium(a=20);
+    translate([-60,0,0])
+    {
+        display() kart_small();
+        displayGhost() translate([0,0,kartZ]) sail_small(a=20);
+    }
+
+	// display() kart_small();
+    // displayGhost() translate([0,0,kartZ]) sail_small(a=20);
 
     // display() sail_small();
     // displayGhost() translate([0,0,-kartZ]) kart_small();
@@ -175,4 +236,6 @@ else
 {
 	if(makeBase_sm) kart_small();
     if(makeSail_sm) sail_small();
+    if(makeBase_med) kart_medium();
+    if(makeSail_med) sail_medium();
 }
