@@ -41,7 +41,12 @@ $fn = 128;
 frameCylCZ = 1;
 
 module kart_small()
-{   
+{
+    kartCore();
+}
+
+module kartCore()
+{
     difference()
     {
         union() 
@@ -120,6 +125,11 @@ echo(str("sailZ = ", sailZ));
 echo(str("pivorOD = ", pivorOD));
 
 module sail_small(a=0)
+{
+    sailCore(a);
+}
+
+module sailCore(a)
 {
     translate([0, mastPosition, 0])
     {
