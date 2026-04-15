@@ -68,10 +68,10 @@ module kart_medium()
         
         // Bottom-Up Magnet Recesses:
         magnetRecessBottom(y= 0, magnetDia=10.2);
-        magnetRecessBottom(y=25, magnetDia=10.2);
+        magnetRecessBottom(y=35, magnetDia=10.2);
 
         // Mast pivot hole:
-        tcy([0, mastPosition*scaleMedium, firstLayerHeight+2*layerHeight], d=3, h=100);
+        tcy([0, mastPosition*scaleMedium, 3], d=3, h=100);
     }
 }
 
@@ -109,17 +109,6 @@ module kartCore()
             // Sail stops:
             doubleX() translate([8.3,0,0]) simpleChamferedCylinder(d=rearAxleY-2*frameCylCZ, h=kartZ+1.2, cz=2*firstLayerHeight);
         }
-
-        // // Top-Down Magnet Recesses:
-        // magnetRecessTop(y=0, magnetDia=10.2);
-        // magnetRecessTop(y=frameLength-5.2, magnetDia= 5.2);
-
-        // // Bottom-Up Magnet Recesses:
-        // magnetRecessBottom(y=0, magnetDia=10.2);
-        // magnetRecessBottom(y=frameLength-5.2, magnetDia= 5.2);
-
-        // // Mast pivot hole:
-        // tcy([0, mastPosition, firstLayerHeight+2*layerHeight], d=2, h=100);
     }
 }
 
@@ -215,6 +204,7 @@ module clip(d=0)
 {
 	// tc([-200, -400-d, -10], 400);
     // tcu([0-d, -200, -10], 400);
+    // tcu([-400+d, -200, -10], 400);
 }
 
 if(developmentRender)
