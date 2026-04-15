@@ -4,8 +4,8 @@ include <../../OpenSCAD_Lib/chamferedCylinders.scad>
 firstLayerHeight = 0.2;
 layerHeight = 0.2;
 
-makeBase = false;
-makeSail = false;
+makeBase_sm = false;
+makeSail_sm = false;
 
 magnetRecessZ = 2.1;
 
@@ -40,7 +40,7 @@ $fn = 128;
 
 frameCylCZ = 1;
 
-module kart()
+module kart_small()
 {   
     difference()
     {
@@ -119,7 +119,7 @@ pivorOD = pivotHoleDia + 4*perimeterWidth;
 echo(str("sailZ = ", sailZ));
 echo(str("pivorOD = ", pivorOD));
 
-module sail(a=0)
+module sail_small(a=0)
 {
     translate([0, mastPosition, 0])
     {
@@ -155,14 +155,14 @@ module clip(d=0)
 
 if(developmentRender)
 {
-	display() kart();
-    displayGhost() translate([0,0,kartZ]) sail(a=20);
+	display() kart_small();
+    displayGhost() translate([0,0,kartZ]) sail_small(a=20);
 
-    // display() sail();
-    // displayGhost() translate([0,0,-kartZ]) kart();
+    // display() sail_small();
+    // displayGhost() translate([0,0,-kartZ]) kart_small();
 }
 else
 {
-	if(makeBase) kart();
-    if(makeSail) sail();
+	if(makeBase_sm) kart_small();
+    if(makeSail_sm) sail_small();
 }
