@@ -9,8 +9,6 @@ makeSail_sm = false;
 makeBase_med = false;
 makeSail_med = false;
 
-magnetRecessZ = 2.1;
-
 frameWidthRear_inch = 28;
 rearTrack_inch = frameWidthRear_inch + 2*13.4;
 
@@ -33,7 +31,7 @@ mastPosition = 28*scaleXY; // est.
 rearTrack = frameWidthRear + 2*13.4*scaleXY*0.85;
 echo(str("rearTrack = ", rearTrack));
 
-kartZ = max(firstLayerHeight + 20*layerHeight, firstLayerHeight+magnetRecessZ);
+kartZ = firstLayerHeight + 20*layerHeight;
 echo(str("kartZ = ", kartZ));
 
 echo(str("wheelWidth = ", wheelWidth));
@@ -53,7 +51,7 @@ module kart_small()
         // Bottom-Up Magnet Recesses:
         // magnetRecessBottom(y=0, magnetDia=10.2);
         // magnetRecessBottom(y=frameLength-5.2, magnetDia= 5.2);
-        magnetRecessBottom(y=7, magnetDia=10.2);
+        magnetRecessBottom(y=7, magnetDia=10.2, magnetThickness=2.1);
 
         // Mast pivot hole:
         tcy([0, mastPosition, firstLayerHeight+2*layerHeight], d=2, h=100);
@@ -67,8 +65,7 @@ module kart_medium()
         scale(scaleMedium) kartCore();
         
         // Bottom-Up Magnet Recesses:
-        magnetRecessBottom(y= 0, magnetDia=10.2);
-        magnetRecessBottom(y=35, magnetDia=10.2);
+        magnetRecessBottom(y=10, magnetDia=24.8, magnetThickness=3);
 
         // Mast pivot hole:
         tcy([0, mastPosition*scaleMedium, 3], d=3, h=100);
@@ -117,9 +114,9 @@ module magnetRecessTop(y, magnetDia)
     tcy([0, y, firstLayerHeight], d=magnetDia, h=100);
 }
 
-module magnetRecessBottom(y, magnetDia)
+module magnetRecessBottom(y, magnetDia, magnetThickness)
 {
-    tcy([0, y, -100+magnetRecessZ], d=magnetDia, h=100);
+    tcy([0, y, -100+magnetThickness], d=magnetDia, h=100);
 }
 
 module wheel()
