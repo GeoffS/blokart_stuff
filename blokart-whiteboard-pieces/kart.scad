@@ -65,7 +65,7 @@ module kart_medium()
         scale(scaleMedium) kartCore();
         
         // Bottom-Up Magnet Recesses:
-        magnetRecessBottom(y=10, magnetDia=24.8, magnetThickness=3.4);
+        magnetRecessBottom(y=10, magnetDia=25.2, magnetThickness=3.4);
 
         // Mast pivot hole:
         tcy([0, mastPosition*scaleMedium, 3], d=3, h=100);
