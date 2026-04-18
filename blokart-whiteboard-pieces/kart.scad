@@ -6,7 +6,8 @@ layerHeight = 0.2;
 
 makeBase_sm = false;
 makeSail_sm = false;
-makeBase_med = false;
+makeBase_med_25mm = false;
+makeBase_med_20mm = false;
 makeSail_med = false;
 
 frameWidthRear_inch = 28;
@@ -58,14 +59,30 @@ module kart_small()
     }
 }
 
-module kart_medium()
+module kart_medium_25mm()
+{
+    kart_medium_core()
+    {
+        magnetRecessBottom(y=8.5, magnetDia=25.2, magnetThickness=3.4);
+    }
+}
+
+module kart_medium_20mm()
+{
+    kart_medium_core()
+    {
+        magnetRecessBottom(y=18, magnetDia=20.3, magnetThickness=3.2);
+    }
+}
+
+module kart_medium_core()
 {
     difference()
     {
         scale(scaleMedium) kartCore();
         
         // Bottom-Up Magnet Recesses:
-        magnetRecessBottom(y=8.5, magnetDia=25.2, magnetThickness=3.4);
+        children();
 
         // Mast pivot hole:
         tcy([0, mastPosition*scaleMedium, 3], d=3, h=100);
@@ -107,11 +124,6 @@ module kartCore()
             doubleX() translate([8.3,0,0]) simpleChamferedCylinder(d=rearAxleY-2*frameCylCZ, h=kartZ+1.2, cz=2*firstLayerHeight);
         }
     }
-}
-
-module magnetRecessTop(y, magnetDia)
-{
-    tcy([0, y, firstLayerHeight], d=magnetDia, h=100);
 }
 
 module magnetRecessBottom(y, magnetDia, magnetThickness)
@@ -206,12 +218,17 @@ module clip(d=0)
 
 if(developmentRender)
 {
-    display() kart_medium();
+    display() kart_medium_20mm();
     displayGhost() translate([0,0,kartZ*scaleMedium]) sail_medium(a=20);
-    translate([-60,0,0])
+    translate([-80,0,0])
     {
-        display() kart_small();
-        displayGhost() translate([0,0,kartZ]) sail_small(a=20);
+        display() color("red") kart_medium_25mm();
+        display() color("white") translate([0,0,kartZ*scaleMedium]) sail_medium(a=20);
+    }
+    translate([-140,0,0])
+    {
+        display() color("green") kart_small();
+        display() color("white") translate([0,0,kartZ]) sail_small(a=20);
     }
 
 	// display() kart_small();
@@ -224,6 +241,7 @@ else
 {
 	if(makeBase_sm) kart_small();
     if(makeSail_sm) sail_small();
-    if(makeBase_med) kart_medium();
+    if(makeBase_med_25mm) kart_medium_25mm();
+    if(makeBase_med_20mm) kart_medium_20mm();
     if(makeSail_med) sail_medium();
 }
