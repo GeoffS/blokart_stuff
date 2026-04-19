@@ -50,7 +50,7 @@ module kart_small()
         kartCore();
         
         // Bottom-Up Magnet Recess:
-        magnetRecessBottom(y=7, magnetDia=10.4, magnetThickness=3.0);
+        magnetRecessBottom(y=7, magnetDia=10.4, magnetThickness=3.2);
 
         // Mast pivot hole:
         tcy([0, mastPosition, firstLayerHeight+2*layerHeight], d=2, h=100);
