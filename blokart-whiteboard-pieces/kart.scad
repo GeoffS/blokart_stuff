@@ -69,7 +69,7 @@ module kart_medium_20mm()
 {
     kart_medium_core()
     {
-        magnetRecessBottom(y=18, magnetDia=20.3, magnetThickness=3.2);
+        magnetRecessBottom(y=18, magnetDia=20.0, magnetThickness=3.2);
     }
 }
 
