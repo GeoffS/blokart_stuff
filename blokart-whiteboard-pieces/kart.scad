@@ -6,7 +6,7 @@ layerHeight = 0.2;
 
 makeBase_sm = false;
 makeSail_sm = false;
-makeBase_med_25mm = false;
+// makeBase_med_25mm = false;
 makeBase_med_20mm = false;
 makeSail_med = false;
 
@@ -57,13 +57,13 @@ module kart_small()
     }
 }
 
-module kart_medium_25mm()
-{
-    kart_medium_core()
-    {
-        magnetRecessBottom(y=8.5, magnetDia=25.2, magnetThickness=3.4);
-    }
-}
+// module kart_medium_25mm()
+// {
+//     kart_medium_core()
+//     {
+//         magnetRecessBottom(y=8.5, magnetDia=25.2, magnetThickness=3.4);
+//     }
+// }
 
 module kart_medium_20mm()
 {
@@ -218,14 +218,14 @@ if(developmentRender)
 {
     display() kart_medium_20mm();
     displayGhost() translate([0,0,kartZ*scaleMedium]) sail_medium(a=20);
-    translate([-80,0,0])
-    {
-        display() color("red") kart_medium_25mm();
-        display() color("white") translate([0,0,kartZ*scaleMedium]) sail_medium(a=20);
-    }
+    // translate([-80,0,0])
+    // {
+    //     display() color("red") kart_medium_25mm();
+    //     display() color("white") translate([0,0,kartZ*scaleMedium]) sail_medium(a=20);
+    // }
     translate([-140,0,0])
     {
-        display() color("green") kart_small();
+        display() kart_small();
         display() color("white") translate([0,0,kartZ]) sail_small(a=20);
     }
 
@@ -239,7 +239,7 @@ else
 {
 	if(makeBase_sm) kart_small();
     if(makeSail_sm) sail_small();
-    if(makeBase_med_25mm) kart_medium_25mm();
+    // if(makeBase_med_25mm) kart_medium_25mm();
     if(makeBase_med_20mm) kart_medium_20mm();
     if(makeSail_med) sail_medium();
 }
