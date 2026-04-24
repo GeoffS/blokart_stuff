@@ -15,6 +15,7 @@ pinCylinderDia = pinDia + 6;
 throatTop = 11;
 
 tw2 = throatWidth/2;
+pd2 = pinDia/2;
 
 $fn=180;
 
@@ -50,12 +51,16 @@ module itemModule()
 		doubleZ() translate([0,0,tw2-pinDia/2-1]) cylinder(d2=20, d1=0, h=10);
 
 		// Line slot:
-		hull()
-		{
-			translate([0,lineSlotWidth*0.8,0]) rotate([0,90,0]) tcy([0,0,-50], d=lineSlotWidth, h=100);
-			translate([0,-100,0]) rotate([0,90,0]) tcy([0,0,-50], d=lineSlotWidth, h=100);
-		}
+		hull() lineSlotXform() tcy([0,0,-50], d=lineSlotWidth, h=100);
+		// // Line slot chamfer:
+		// hull() lineSlotXform() translate([0,0,pd2]) cylinder(d2=20, d1=0, h=10);
 	}
+}
+
+module lineSlotXform()
+{
+	translate([0,lineSlotWidth*0.8,0]) rotate([0,90,0]) children(); //tcy([0,0,-50], d=lineSlotWidth, h=100);
+	translate([0,-100,0]) rotate([0,90,0]) children(); //tcy([0,0,-50], d=lineSlotWidth, h=100);
 }
 
 module clip(d=0)
