@@ -12,7 +12,11 @@ lineSlotDepth = 8;
 
 pinCylinderDia = pinDia + 6;
 
+throatTop = 11;
+
 tw2 = throatWidth/2;
+
+$fn=180;
 
 module itemModule()
 {
@@ -21,7 +25,25 @@ module itemModule()
 		union()
 		{
 			translate([0,0,-tw2]) simpleChamferedCylinderDoubleEnded(d=pinCylinderDia, h=throatWidth, cz=1);
+
+			difference()
+			{
+				hull()
+				{
+					translate([-pinCylinderDia/2,0,0]) rotate([0,90,0]) simpleChamferedCylinderDoubleEnded(d=throatWidth, h=pinCylinderDia, cz=1);
+					translate([-pinCylinderDia/2,4.5,0]) rotate([0,90,0]) simpleChamferedCylinderDoubleEnded(d=throatWidth, h=pinCylinderDia, cz=1);
+				}
+				tcu([-200,-400,-200], 400);
+			}
 		}
+
+		// Trim the base:
+		tcu([-200, throatTop, -200], 400);
+
+		// Chamfer the base:`
+		// MAGIC!!!
+		//  --------------------------------------------------------------vvvv
+		translate([pinCylinderDia/2, throatTop, 0]) rotate([0,0,45]) tcu([-0.7,-50,-50], 100);
 
 		// Pin:
 		tcy([0,0,-50], d=pinDia, h=100);
@@ -30,7 +52,7 @@ module itemModule()
 		// Line slot:
 		hull()
 		{
-			#translate([0,lineSlotWidth,0]) rotate([0,90,0]) tcy([0,0,-50], d=lineSlotWidth, h=100);
+			translate([0,lineSlotWidth,0]) rotate([0,90,0]) tcy([0,0,-50], d=lineSlotWidth, h=100);
 			translate([0,-100,0]) rotate([0,90,0]) tcy([0,0,-50], d=lineSlotWidth, h=100);
 		}
 	}
@@ -45,6 +67,9 @@ if(developmentRender)
 {
 	display() itemModule();
 	displayGhost() tcy([0,0,-20], d=pinDia-0.2, h=40);
+
+	// Print orientation:
+	// display() translate([-20,0,throatTop]) rotate([-90,0,0]) itemModule();
 }
 else
 {
