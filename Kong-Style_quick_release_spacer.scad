@@ -20,12 +20,15 @@ module itemModule()
 	{
 		union()
 		{
-			simpleChamferedCylinderDoubleEnded(d=pinCylinderDia, h=throatWidth, cz=1);
+			translate([0,0,-tw2]) simpleChamferedCylinderDoubleEnded(d=pinCylinderDia, h=throatWidth, cz=1);
 		}
 
 		// Pin:
-		tcy([0,0,-10], d=pinDia, h=100);
-		translate([0,0,tw2]) doubleZ() translate([0,0,tw2-pinDia/2-1]) cylinder(d1=0, d2=20, h=10);
+		tcy([0,0,-50], d=pinDia, h=100);
+		doubleZ() translate([0,0,tw2-pinDia/2-1]) cylinder(d2=20, d1=0, h=10);
+
+		// Line slot:
+
 	}
 }
 
