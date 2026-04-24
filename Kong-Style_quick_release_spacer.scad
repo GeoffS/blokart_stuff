@@ -43,7 +43,7 @@ module itemModule()
 		// Chamfer the base:`
 		// MAGIC!!!
 		//  --------------------------------------------------------------vvvv
-		translate([pinCylinderDia/2, throatTop, 0]) rotate([0,0,45]) tcu([-0.7,-50,-50], 100);
+		doubleX() translate([pinCylinderDia/2, throatTop, 0]) rotate([0,0,45]) tcu([-0.7,-50,-50], 100);
 
 		// Pin:
 		tcy([0,0,-50], d=pinDia, h=100);
@@ -52,7 +52,7 @@ module itemModule()
 		// Line slot:
 		hull()
 		{
-			translate([0,lineSlotWidth,0]) rotate([0,90,0]) tcy([0,0,-50], d=lineSlotWidth, h=100);
+			translate([0,lineSlotWidth*0.8,0]) rotate([0,90,0]) tcy([0,0,-50], d=lineSlotWidth, h=100);
 			translate([0,-100,0]) rotate([0,90,0]) tcy([0,0,-50], d=lineSlotWidth, h=100);
 		}
 	}
@@ -73,5 +73,5 @@ if(developmentRender)
 }
 else
 {
-	itemModule();
+	rotate([-90,0,0]) itemModule();
 }
