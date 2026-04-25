@@ -32,8 +32,10 @@ module itemModule()
 	{
 		union()
 		{
+			// The body around the pin:
 			translate([0,0,-tw2]) simpleChamferedCylinderDoubleEnded(d=pinCylinderDia, h=throatWidth, cz=1);
 
+			// THe body that fills the throat:
 			difference()
 			{
 				hull()
@@ -41,6 +43,7 @@ module itemModule()
 					translate([-pinCylinderDia/2,0,0]) rotate([0,90,0]) simpleChamferedCylinderDoubleEnded(d=throatWidth, h=pinCylinderDia, cz=1);
 					translate([-pinCylinderDia/2,spacerTopCtrOffset,0]) rotate([0,90,0]) simpleChamferedCylinderDoubleEnded(d=throatWidth, h=pinCylinderDia, cz=1);
 				}
+				// Trim below the pin center:
 				tcu([-200,-400,-200], 400);
 			}
 		}
