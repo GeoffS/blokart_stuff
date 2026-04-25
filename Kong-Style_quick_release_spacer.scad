@@ -4,7 +4,7 @@ include <../OpenSCAD_Lib/chamferedCylinders.scad>
 firstLayerHeight = 0.2;
 layerHeight = 0.2;
 
-pinDia = 5.5;
+pinDia = 6.0;
 throatWidth = 17;
 
 lineSlotWidth = 6;
