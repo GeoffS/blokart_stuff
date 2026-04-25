@@ -35,16 +35,12 @@ module uShapedSpacer()
 	{
 		union()
 		{
-			// The body around the pin:
-			// #translate([0, 2, -tw2]) simpleChamferedCylinderDoubleEnded(d=pinCylinderDia, h=throatWidth, cz=1);
-
 			// THe body that fills the throat:
 			difference()
 			{
 				hull()
 				{
 					translate([0, 4, -tw2]) simpleChamferedCylinderDoubleEnded(d=pinCylinderDia, h=throatWidth, cz=1);
-					// #translate([-pinCylinderDia/2,0,0]) rotate([0,90,0]) simpleChamferedCylinderDoubleEnded(d=throatWidth, h=pinCylinderDia, cz=1);
 					translate([-pinCylinderDia/2,spacerTopCtrOffset,0]) rotate([0,90,0]) simpleChamferedCylinderDoubleEnded(d=throatWidth, h=pinCylinderDia, cz=1);
 				}
 				// Trim below the pin center:
@@ -167,8 +163,8 @@ module clip(d=0)
 
 if(developmentRender)
 {
-	display() translate([-30,0,0]) onePieceSpacer();
-	display() translate([-45,0,0]) spacerDisk();
+	// display() translate([-30,0,0]) onePieceSpacer();
+	// display() translate([-45,0,0]) spacerDisk();
 	display() uShapedSpacer();
 
 	displayGhost() tcy([0,0,-20], d=pinDia-0.2, h=40);
