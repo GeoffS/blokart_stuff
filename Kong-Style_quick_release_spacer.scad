@@ -30,7 +30,7 @@ echo(str("spacerTop = ", spacerTop));
 $fn=180;
 
 
-uSpacerZipTieOffsetY = 9.5;
+uSpacerZipTieOffsetY = 8.5;
 		
 module uShapedSpacer()
 {
@@ -78,14 +78,14 @@ module uShapedSpacer()
 			lineSlotWidth = 6;
 			lineSlotUpperDia = 2;
 			upperOffsetZ = lineSlotWidth/2 - lineSlotUpperDia/2;
-			upperOffsetY = pinDia/2 - lineSlotUpperDia/2 + 3;
+			upperOffsetY = pinDia/2 - lineSlotUpperDia/2 + 1.2;
 			translate([0,-10,0]) rotate([0,90,0]) tcy([0,0,-50], d=lineSlotWidth, h=100);
 			doubleZ() translate([0, upperOffsetY, upperOffsetZ]) rotate([0,90,0]) tcy([0,0,-50], d=3, h=100);
 		}
 
 		// Hole for the zip-tie:
 		zipTieTailDia = 3;
-		zipTieHeadDia = 4.2;
+		zipTieHeadDia = 5;
 		zipTieHeadRecessDepth = 5;
 		translate([0, uSpacerZipTieOffsetY, 0]) rotate([0,90,0]) 
 		{
