@@ -4,6 +4,9 @@ include <../OpenSCAD_Lib/chamferedCylinders.scad>
 firstLayerHeight = 0.2;
 layerHeight = 0.2;
 
+makeOnePiece = false;
+makeSpacerDisk = false;
+
 pinDia = 5.4;
 pinThreadsDia = 5.8;
 throatWidth = 17;
@@ -23,10 +26,9 @@ spacerTop = spacerTopOffset - 2;
 echo(str("spacerTopCtrOffset = ", spacerTopCtrOffset));
 echo(str("spacerTop = ", spacerTop));
 
-
 $fn=180;
 
-module itemModule()
+module onePieceSpacer()
 {
 	difference() 
 	{
@@ -87,6 +89,19 @@ module lineSlotXform()
 	translate([0,-100,0]) rotate([0,90,0]) children(); //tcy([0,0,-50], d=lineSlotWidth, h=100);
 }
 
+diskOD = 14;
+centerWidth = 5.5;
+diskWidth = (throatWidth - centerWidth)/2;
+
+module spacerDisk()
+{
+	difference()
+	{
+		simpleChamferedCylinderDoubleEnded(d=diskOD, h=diskWidth, cz=1);
+		tcy([0,0,-50], d=pinThreadsDia, h=100);
+	}
+}
+
 module clip(d=0)
 {
 	// tc([-200, -400-d, -10], 400);
@@ -94,13 +109,15 @@ module clip(d=0)
 
 if(developmentRender)
 {
-	display() itemModule();
+	display() translate([-30,0,0]) onePieceSpacer();
+	display() spacerDisk();
 	displayGhost() tcy([0,0,-20], d=pinDia-0.2, h=40);
 
 	// Print orientation:
-	// display() translate([-20,0,spacerTop]) rotate([-90,0,0]) itemModule();
+	// display() translate([-20,0,spacerTop]) rotate([-90,0,0]) onePieceSpacer();
 }
 else
 {
-	rotate([-90,0,0]) itemModule();
+	if(makeOnePiece) rotate([-90,0,0]) onePieceSpacer();
+	if(makeSpacerDisk) spacerDisk();
 }
