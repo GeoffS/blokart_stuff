@@ -10,13 +10,19 @@ throatWidth = 17;
 
 lineSlotWidth = 6;
 
+tw2 = throatWidth/2;
+pd2 = pinDia/2;
+
 pinCylinderDia = 13;
 echo(str("pinCylinderDia = ", pinCylinderDia));
 
-spacerTop = 12;
+spacerTopOffset = 18.0;
+spacerTopCtrOffset = spacerTopOffset - tw2;
+spacerTop = spacerTopOffset - 2;
 
-tw2 = throatWidth/2;
-pd2 = pinDia/2;
+echo(str("spacerTopCtrOffset = ", spacerTopCtrOffset));
+echo(str("spacerTop = ", spacerTop));
+
 
 $fn=180;
 
@@ -33,7 +39,7 @@ module itemModule()
 				hull()
 				{
 					translate([-pinCylinderDia/2,0,0]) rotate([0,90,0]) simpleChamferedCylinderDoubleEnded(d=throatWidth, h=pinCylinderDia, cz=1);
-					translate([-pinCylinderDia/2,5.5,0]) rotate([0,90,0]) simpleChamferedCylinderDoubleEnded(d=throatWidth, h=pinCylinderDia, cz=1);
+					translate([-pinCylinderDia/2,spacerTopCtrOffset,0]) rotate([0,90,0]) simpleChamferedCylinderDoubleEnded(d=throatWidth, h=pinCylinderDia, cz=1);
 				}
 				tcu([-200,-400,-200], 400);
 			}
