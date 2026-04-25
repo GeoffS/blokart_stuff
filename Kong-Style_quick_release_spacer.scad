@@ -29,6 +29,9 @@ echo(str("spacerTop = ", spacerTop));
 
 $fn=180;
 
+
+uSpacerZipTieOffsetY = 9.5;
+		
 module uShapedSpacer()
 {
 	difference() 
@@ -78,6 +81,17 @@ module uShapedSpacer()
 			upperOffsetY = pinDia/2 - lineSlotUpperDia/2 + 3;
 			translate([0,-10,0]) rotate([0,90,0]) tcy([0,0,-50], d=lineSlotWidth, h=100);
 			doubleZ() translate([0, upperOffsetY, upperOffsetZ]) rotate([0,90,0]) tcy([0,0,-50], d=3, h=100);
+		}
+
+		// Hole for the zip-tie:
+		zipTieTailDia = 3;
+		zipTieHeadDia = 4.2;
+		zipTieHeadRecessDepth = 5;
+		translate([0, uSpacerZipTieOffsetY, 0]) rotate([0,90,0]) 
+		{
+			tcy([0,0,-50], d=zipTieTailDia, h=100);
+			tcy([0,0,pinCylinderDia/2-zipTieHeadRecessDepth], d=zipTieHeadDia, h=20);
+			doubleZ() translate([0, 0, pinCylinderDia/2-zipTieHeadDia/2-0.45]) cylinder(d2=20, d1=0, h=10);
 		}
 	}
 }
@@ -159,6 +173,7 @@ module spacerDisk()
 module clip(d=0)
 {
 	// tc([-200, -400-d, -10], 400);
+	// tcu([-200, uSpacerZipTieOffsetY, -200], 400);
 }
 
 if(developmentRender)
