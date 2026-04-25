@@ -8,7 +8,7 @@ makeOnePiece = false;
 makeSpacerDisk = false;
 
 pinDia = 5.4;
-pinThreadsDia = 5.8;
+pinThreadsDia = 5.9;
 throatWidth = 17;
 
 lineSlotWidth = 6;
