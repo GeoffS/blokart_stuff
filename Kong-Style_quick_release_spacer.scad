@@ -4,12 +4,13 @@ include <../OpenSCAD_Lib/chamferedCylinders.scad>
 firstLayerHeight = 0.2;
 layerHeight = 0.2;
 
-pinDia = 6.0;
+pinDia = 5.4;
+pinThreadsDia = 5.8;
 throatWidth = 17;
 
 lineSlotWidth = 6;
 
-pinCylinderDia = 13; //pinDia + 6;
+pinCylinderDia = 13;
 echo(str("pinCylinderDia = ", pinCylinderDia));
 
 spacerTop = 12;
@@ -46,8 +47,13 @@ module itemModule()
 		//  ------------------------------------------------------------------------vvvv
 		doubleX() translate([pinCylinderDia/2, spacerTop, 0]) rotate([0,0,45]) tcu([-0.7,-50,-50], 100);
 
-		// Pin:
-		pin();
+		// Pin threads::
+		mirror([0,0,1]) 
+		{
+			tcy([0,0,0], d=pinThreadsDia, h=100);
+			translate([0,0,tw2-pinThreadsDia/2-1]) cylinder(d2=20, d1=0, h=10);
+		}
+
 		// Slot on one side of the spacer for installation:
 		hull()
 		{
@@ -70,12 +76,6 @@ module lineSlotXform()
 {
 	translate([0,lineSlotWidth*0.8,0]) rotate([0,90,0]) children(); //tcy([0,0,-50], d=lineSlotWidth, h=100);
 	translate([0,-100,0]) rotate([0,90,0]) children(); //tcy([0,0,-50], d=lineSlotWidth, h=100);
-}
-
-module pin()
-{
-	tcy([0,0,-50], d=pinDia, h=100);
-	doubleZ() translate([0,0,tw2-pinDia/2-1]) cylinder(d2=20, d1=0, h=10);
 }
 
 module clip(d=0)
