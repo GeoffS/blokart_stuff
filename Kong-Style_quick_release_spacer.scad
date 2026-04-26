@@ -43,11 +43,11 @@ module uShapedSpacer()
 			{
 				hull()
 				{
-					translate([0, 4, -tw2]) simpleChamferedCylinderDoubleEnded(d=pinCylinderDia, h=throatWidth, cz=1);
+					translate([0, 2.5, -tw2]) simpleChamferedCylinderDoubleEnded(d=pinCylinderDia, h=throatWidth, cz=1);
 					translate([-pinCylinderDia/2,spacerTopCtrOffset,0]) rotate([0,90,0]) simpleChamferedCylinderDoubleEnded(d=throatWidth, h=pinCylinderDia, cz=1);
 				}
-				// Trim below the pin center:
-				tcu([-200,-400,-200], 400);
+				// Trim below the pin:
+				tcu([-200,-400-pinDia/2+0.5,-200], 400);
 			}
 		}
 
@@ -70,7 +70,6 @@ module uShapedSpacer()
 			translate([0,   0, tw2-pinDia/2-1]) cylinder(d2=20, d1=0, h=10);
 			translate([0, -20, tw2-pinDia/2-1]) cylinder(d2=20, d1=0, h=10);
 		}
-		tcu([-20, -40-pinDia/2, -20], 40);
 
 		// Line slot:
 		hull() 
