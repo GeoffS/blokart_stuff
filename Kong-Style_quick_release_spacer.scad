@@ -29,7 +29,7 @@ echo(str("spacerTop = ", spacerTop));
 $fn=180;
 
 
-uSpacerZipTieOffsetY = 8.5;
+two_mm_line_loop_spacer_ZipTieOffsetY = 8.5;
 		
 module two_mm_line_loop_spacer()
 {
@@ -85,7 +85,7 @@ module two_mm_line_loop_spacer()
 		zipTieTailDia = 3;
 		zipTieHeadDia = 5;
 		zipTieHeadRecessDepth = 5;
-		translate([0, uSpacerZipTieOffsetY, 0]) rotate([0,90,0]) 
+		translate([0, two_mm_line_loop_spacer_ZipTieOffsetY, 0]) rotate([0,90,0]) 
 		{
 			tcy([0,0,-50], d=zipTieTailDia, h=100);
 			tcy([0,0,pinCylinderDia/2-zipTieHeadRecessDepth], d=zipTieHeadDia, h=20);
@@ -110,7 +110,7 @@ module spacerDisk()
 module clip(d=0)
 {
 	// tc([-200, -400-d, -10], 400);
-	// tcu([-200, uSpacerZipTieOffsetY, -200], 400);
+	// tcu([-200, two_mm_line_loop_spacer_ZipTieOffsetY, -200], 400);
 }
 
 if(developmentRender)
