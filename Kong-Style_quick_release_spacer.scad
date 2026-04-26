@@ -4,7 +4,7 @@ include <../OpenSCAD_Lib/chamferedCylinders.scad>
 firstLayerHeight = 0.2;
 layerHeight = 0.2;
 
-makeUspacer = false;
+makeTwo_mm_line_loop_spacer = false;
 makeSpacerDisk = false;
 
 pinDia = 5.4;
@@ -31,7 +31,7 @@ $fn=180;
 
 uSpacerZipTieOffsetY = 8.5;
 		
-module uShapedSpacer()
+module two_mm_line_loop_spacer()
 {
 	difference() 
 	{
@@ -116,15 +116,15 @@ module clip(d=0)
 if(developmentRender)
 {
 	// display() translate([-45,0,0]) spacerDisk();
-	display() uShapedSpacer();
+	display() two_mm_line_loop_spacer();
 
 	displayGhost() tcy([0,0,-20], d=pinDia-0.2, h=40);
 
 	// Print orientation:
-	// display() translate([-20,0,spacerTop]) rotate([-90,0,0]) uShapedSpacer();
+	// display() translate([-20,0,spacerTop]) rotate([-90,0,0]) two_mm_line_loop_spacer();
 }
 else
 {
 	if(makeSpacerDisk) spacerDisk();
-	if(makeUspacer) rotate([-90,0,0]) uShapedSpacer();
+	if(makeTwo_mm_line_loop_spacer) rotate([-90,0,0]) two_mm_line_loop_spacer();
 }
