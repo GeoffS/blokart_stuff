@@ -119,7 +119,7 @@ module kartCore()
             translate([0, wheelbase*0.9, 0]) wheel();
 
             // Sail stops:
-            doubleX() translate([8.3,0,0]) simpleChamferedCylinder(d=rearAxleY-2*frameCylCZ, h=kartZ+1.2, cz=2*firstLayerHeight);
+            #doubleX() translate([8.3,0,0]) simpleChamferedCylinder(d=rearAxleY-2*frameCylCZ+2*layerHeight, h=kartZ+1.2, cz=2*layerHeight);
         }
     }
 }
@@ -216,24 +216,30 @@ module clip(d=0)
 
 if(developmentRender)
 {
-    display() kart_medium_20mm();
-    displayGhost() translate([0,0,kartZ*scaleMedium]) sail_medium(a=20);
-    // translate([-80,0,0])
+    // display() kart_medium_20mm();
+    // displayGhost() translate([0,0,kartZ*scaleMedium]) sail_medium(a=20);
+    // // translate([-80,0,0])
+    // // {
+    // //     display() color("red") kart_medium_25mm();
+    // //     display() color("white") translate([0,0,kartZ*scaleMedium]) sail_medium(a=20);
+    // // }
+    // translate([-140,0,0])
     // {
-    //     display() color("red") kart_medium_25mm();
-    //     display() color("white") translate([0,0,kartZ*scaleMedium]) sail_medium(a=20);
+    //     display() kart_small();
+    //     display() color("white") translate([0,0,kartZ]) sail_small(a=20);
     // }
-    translate([-140,0,0])
-    {
-        display() kart_small();
-        display() color("white") translate([0,0,kartZ]) sail_small(a=20);
-    }
 
-	// display() kart_small();
-    // displayGhost() translate([0,0,kartZ]) sail_small(a=20);
+	display() kart_small();
+    displayGhost() translate([0,0,kartZ]) sail_small(a=20);
 
     // display() sail_small();
     // displayGhost() translate([0,0,-kartZ]) kart_small();
+
+    translate([-80,0,0]) 
+    {
+        display() kart_medium_20mm();
+        displayGhost() translate([0,0,kartZ*scaleMedium]) sail_medium(a=20);
+    }
 }
 else
 {
