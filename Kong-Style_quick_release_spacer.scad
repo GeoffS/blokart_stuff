@@ -95,7 +95,7 @@ module two_mm_line_loop_spacer()
 	}
 }
 
-shackle_spacer_ZipTieOffsetY = 8.5;
+shackle_spacer_ZipTieOffsetY = 10.5;
 		
 module shackle_spacer()
 {
@@ -136,14 +136,14 @@ module shackle_spacer()
 			translate([0, -20, tw2-pinDia/2-1]) cylinder(d2=20, d1=0, h=10);
 		}
 
-		// Line slot:
+		// Shackle slot:
 		hull() 
 		{
-			lineSlotWidth = 6;
-			lineSlotUpperDia = 2;
-			upperOffsetZ = lineSlotWidth/2 - lineSlotUpperDia/2;
-			upperOffsetY = pinDia/2 - lineSlotUpperDia/2 + 1.2;
-			translate([0,-10,0]) rotate([0,90,0]) tcy([0,0,-50], d=lineSlotWidth, h=100);
+			shackleSlotWidth = 8.3;
+			shackleSlotUpperDia = 2;
+			upperOffsetZ = shackleSlotWidth/2 - shackleSlotUpperDia/2;
+			upperOffsetY = pinDia/2 - shackleSlotUpperDia/2 + 3.5;
+			translate([0,-10,0]) rotate([0,90,0]) tcy([0,0,-50], d=shackleSlotWidth, h=100);
 			doubleZ() translate([0, upperOffsetY, upperOffsetZ]) rotate([0,90,0]) tcy([0,0,-50], d=3, h=100);
 		}
 
@@ -151,7 +151,7 @@ module shackle_spacer()
 		zipTieTailDia = 3;
 		zipTieHeadDia = 5;
 		zipTieHeadRecessDepth = 5;
-		translate([0, two_mm_line_loop_spacer_ZipTieOffsetY, 0]) rotate([0,90,0]) 
+		translate([0, shackle_spacer_ZipTieOffsetY, 0]) rotate([0,90,0]) 
 		{
 			tcy([0,0,-50], d=zipTieTailDia, h=100);
 			tcy([0,0,pinCylinderDia/2-zipTieHeadRecessDepth], d=zipTieHeadDia, h=20);
@@ -182,7 +182,7 @@ module clip(d=0)
 if(developmentRender)
 {
 	// display() translate([-45,0,0]) spacerDisk();
-	display() translate([-30,0,0]) two_mm_line_loop_spacer();
+	// display() translate([-30,0,0]) two_mm_line_loop_spacer();
 	display() shackle_spacer();
 
 	displayGhost() tcy([0,0,-20], d=pinDia-0.2, h=40);
