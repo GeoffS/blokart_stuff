@@ -57,14 +57,6 @@ module kart_small()
     }
 }
 
-// module kart_medium_25mm()
-// {
-//     kart_medium_core()
-//     {
-//         magnetRecessBottom(y=8.5, magnetDia=25.2, magnetThickness=3.4);
-//     }
-// }
-
 module kart_medium_20mm()
 {
     kart_medium_core()
