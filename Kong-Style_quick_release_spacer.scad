@@ -100,14 +100,29 @@ shackle_spacer_ZipTieOffsetY = 10.5;
 
 module shackle_spacer_nubs()
 {
-	shackle_spacer_core();
+	difference()
+	{
+		shackle_spacer_core();
 
-	shackleSideWidth = 6.5; //6.8;
-	nubHeight = 0.6;
-	numDia = 2;
+		// Slot to allow a bit of give:
+		hull()
+		{
+			rotate([0,90,0]) tcy([0,0,-50], d=1, h=100);
+			translate([0,spacerTop-4,0]) rotate([0,90,0]) tcy([0,0,-50], d=1, h=100);
+		}
+		// MAGIC!!!
+		//  -----------vvvv
+		translate([0,3.665+1.2,0]) rotate([45,0,0]) cube([100, 5, 5], center=true);
+	}
+	
+	shackleSideWidth = 6.5;
+	nubHeight = 0.4;
+	numDia = 2.2;
 	numbCtrOffsetY = 7.5;
 
-	doubleX() doubleZ() translate([shackleSideWidth/2, numbCtrOffsetY, throatWidth/2-1]) simpleChamferedCylinder(d=numDia, h=nubHeight+1, cz=nubHeight);
+	// Nubs:
+	doubleX() doubleZ() translate([shackleSideWidth/2, 4.1, throatWidth/2-1]) simpleChamferedCylinder(d=numDia, h=nubHeight+1, cz=nubHeight);
+	doubleX() doubleZ() translate([shackleSideWidth/2, 8.0, throatWidth/2-1]) simpleChamferedCylinder(d=numDia, h=nubHeight+1, cz=nubHeight);
 }
 		
 module shackle_spacer_ziptie()
@@ -208,7 +223,7 @@ if(developmentRender)
 	// display() translate([-30,0,0]) two_mm_line_loop_spacer();
 	// display() shackle_spacer_ziptie();
 
-	display() translate([-40, 0, 0]) shackle_spacer_ziptie();
+	// display() translate([-40, 0, 0]) shackle_spacer_ziptie();
 	display() shackle_spacer_nubs();
 
 	displayGhost() tcy([0,0,-20], d=pinDia-0.2, h=40);
