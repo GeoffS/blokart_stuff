@@ -108,15 +108,15 @@ module shackle_spacer_nubs()
 		hull()
 		{
 			rotate([0,90,0]) tcy([0,0,-50], d=1, h=100);
-			translate([0,spacerTop-4,0]) rotate([0,90,0]) tcy([0,0,-50], d=1, h=100);
+			translate([0,spacerTop-5,0]) rotate([0,90,0]) tcy([0,0,-50], d=1, h=100);
 		}
 		// MAGIC!!!
 		//  -----------vvvv
 		translate([0,3.665+1.2,0]) rotate([45,0,0]) cube([100, 5, 5], center=true);
 	}
 	
-	shackleSideWidth = 6.5;
-	nubHeight = 0.4;
+	shackleSideWidth = 6.6;
+	nubHeight = 0.45;
 	numDia = 2.2;
 	numbCtrOffsetY = 7.5;
 
