@@ -111,11 +111,11 @@ module shackle_spacer_nubs()
 			translate([0,spacerTop-5,0]) rotate([0,90,0]) tcy([0,0,-50], d=1, h=100);
 		}
 		// MAGIC!!!
-		//  -----------vvvv
+		//  ---------vvvvv
 		translate([0,3.665+1.2,0]) rotate([45,0,0]) cube([100, 5, 5], center=true);
 	}
 	
-	shackleSideWidth = 6.7;
+	shackleSideWidth = 6.9;
 	nubHeight = 0.45;
 	numDia = 2.2;
 	numbCtrOffsetY = 7.5;
@@ -228,6 +228,8 @@ if(developmentRender)
 
 	displayGhost() tcy([0,0,-20], d=pinDia-0.2, h=40);
 
+	displayGhost() shackleBodyGhost();
+
 	// Print orientation:
 	// display() translate([-20,0,spacerTop]) rotate([-90,0,0]) two_mm_line_loop_spacer();
 }
@@ -237,4 +239,11 @@ else
 	if(makeTwo_mm_line_loop_spacer) rotate([-90,0,0]) two_mm_line_loop_spacer();
 	if(makeShackle_spacer_ziptie) rotate([-90,0,0]) shackle_spacer_ziptie();
 	if(makeShackle_spacer_nubs) rotate([-90,0,0]) shackle_spacer_nubs();
+}
+
+module shackleBodyGhost()
+{
+	sideX = 6.82;
+	sideZ = 6.5;
+	translate([-sideX/2, -4, throatWidth/2]) cube([sideX, 20, sideZ]);
 }
