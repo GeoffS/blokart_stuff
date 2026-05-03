@@ -5,7 +5,8 @@ firstLayerHeight = 0.2;
 layerHeight = 0.2;
 
 makeTwo_mm_line_loop_spacer = false;
-makeShackle_spacer = false;
+makeShackle_spacer_ziptie = false;
+makeShackle_spacer_nubs = false;
 makeSpacerDisk = false;
 
 pinDia = 5.4;
@@ -96,8 +97,40 @@ module two_mm_line_loop_spacer()
 }
 
 shackle_spacer_ZipTieOffsetY = 10.5;
+
+module shackle_spacer_nubs()
+{
+	shackle_spacer_core();
+
+	shackleSideWidth = 6.5; //6.8;
+	nubHeight = 0.6;
+	numDia = 2;
+	numbCtrOffsetY = 7.5;
+
+	doubleX() doubleZ() translate([shackleSideWidth/2, numbCtrOffsetY, throatWidth/2-1]) simpleChamferedCylinder(d=numDia, h=nubHeight+1, cz=nubHeight);
+}
 		
-module shackle_spacer()
+module shackle_spacer_ziptie()
+{
+	difference()
+	{
+		shackle_spacer_core();
+
+		// Hole for the zip-tie:
+		zipTieTailDia = 3;
+		zipTieHeadDia = 5;
+		zipTieHeadRecessDepth = 5;
+
+		translate([0, shackle_spacer_ZipTieOffsetY, 0]) rotate([0,90,0]) 
+		{
+			tcy([0,0,-50], d=zipTieTailDia, h=100);
+			tcy([0,0,pinCylinderDia/2-zipTieHeadRecessDepth], d=zipTieHeadDia, h=20);
+			doubleZ() translate([0, 0, pinCylinderDia/2-zipTieHeadDia/2-0.45]) cylinder(d2=20, d1=0, h=10);
+		}
+	}
+}
+
+module shackle_spacer_core()
 {
 	difference() 
 	{
@@ -147,16 +180,16 @@ module shackle_spacer()
 			doubleZ() translate([0, upperOffsetY, upperOffsetZ]) rotate([0,90,0]) tcy([0,0,-50], d=3, h=100);
 		}
 
-		// Hole for the zip-tie:
-		zipTieTailDia = 3;
-		zipTieHeadDia = 5;
-		zipTieHeadRecessDepth = 5;
-		translate([0, shackle_spacer_ZipTieOffsetY, 0]) rotate([0,90,0]) 
-		{
-			tcy([0,0,-50], d=zipTieTailDia, h=100);
-			tcy([0,0,pinCylinderDia/2-zipTieHeadRecessDepth], d=zipTieHeadDia, h=20);
-			doubleZ() translate([0, 0, pinCylinderDia/2-zipTieHeadDia/2-0.45]) cylinder(d2=20, d1=0, h=10);
-		}
+		// // Hole for the zip-tie:
+		// zipTieTailDia = 3;
+		// zipTieHeadDia = 5;
+		// zipTieHeadRecessDepth = 5;
+		// translate([0, shackle_spacer_ZipTieOffsetY, 0]) rotate([0,90,0]) 
+		// {
+		// 	tcy([0,0,-50], d=zipTieTailDia, h=100);
+		// 	tcy([0,0,pinCylinderDia/2-zipTieHeadRecessDepth], d=zipTieHeadDia, h=20);
+		// 	doubleZ() translate([0, 0, pinCylinderDia/2-zipTieHeadDia/2-0.45]) cylinder(d2=20, d1=0, h=10);
+		// }
 	}
 }
 
@@ -176,6 +209,7 @@ module spacerDisk()
 module clip(d=0)
 {
 	// tc([-200, -400-d, -10], 400);
+	// tcu([0,-200,-200], 400);
 	// tcu([-200, two_mm_line_loop_spacer_ZipTieOffsetY, -200], 400);
 }
 
@@ -183,7 +217,10 @@ if(developmentRender)
 {
 	// display() translate([-45,0,0]) spacerDisk();
 	// display() translate([-30,0,0]) two_mm_line_loop_spacer();
-	display() shackle_spacer();
+	// display() shackle_spacer_ziptie();
+
+	display() translate([-40, 0, 0]) shackle_spacer_ziptie();
+	display() shackle_spacer_nubs();
 
 	displayGhost() tcy([0,0,-20], d=pinDia-0.2, h=40);
 
@@ -194,5 +231,6 @@ else
 {
 	if(makeSpacerDisk) spacerDisk();
 	if(makeTwo_mm_line_loop_spacer) rotate([-90,0,0]) two_mm_line_loop_spacer();
-	if(makeShackle_spacer) rotate([-90,0,0]) shackle_spacer();
+	if(makeShackle_spacer_ziptie) rotate([-90,0,0]) shackle_spacer_ziptie();
+	if(makeShackle_spacer_nubs) rotate([-90,0,0]) shackle_spacer_nubs();
 }
