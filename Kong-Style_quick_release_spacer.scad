@@ -115,7 +115,7 @@ module shackle_spacer_nubs()
 		translate([0,3.665+1.2,0]) rotate([45,0,0]) cube([100, 5, 5], center=true);
 	}
 	
-	shackleSideWidth = 6.9;
+	shackleSideWidth = 7.5;
 	nubHeight = 0.45;
 	numDia = 2.2;
 	numbCtrOffsetY = 7.5;
