@@ -238,13 +238,15 @@ module shackle_spacer_screw2()
 
 module shackle_spacer_screw()
 {
+	sideX = 7.4;
+		
 	difference() 
 	{
 		union()
 		{
 			// Slightly wider than the throat.
 			// We'll do a cut later to clear it.
-			w = throatWidth + 2;
+			w = throatWidth + 2.4;
 
 			// The body that fills the throat:
 			difference()
@@ -252,11 +254,17 @@ module shackle_spacer_screw()
 				hull()
 				{
 					f = cos(22.5); // Face diameter factor.
-					translate([0, 2.5, -w/2]) rotate([0,0,22.5]) simpleChamferedCylinderDoubleEnded(d=pinCylinderDia/f, h=w, cz=1, $fn=8);
-					translate([-pinCylinderDia/2, spacerTopCtrOffset, 0]) rotate([0,90,0]) simpleChamferedCylinderDoubleEnded(d=w, h=pinCylinderDia, cz=1);
+					translate([0, 2.5, -tw2]) rotate([0,0,22.5]) simpleChamferedCylinderDoubleEnded(d=pinCylinderDia/f, h=throatWidth, cz=1/f, $fn=8);
+					translate([-pinCylinderDia/2, spacerTopCtrOffset, 0]) rotate([0,90,0]) simpleChamferedCylinderDoubleEnded(d=throatWidth, h=pinCylinderDia, cz=1);
 				}
 				// Trim below the pin:
 				tcu([-200,-400-pinDia/2+0.5,-200], 400);
+			}
+			// Disk above the pin:
+			translate([0, spacerTopCtrOffset, 0]) rotate([0,90,0]) difference()
+			{
+				translate([0,0,-pinCylinderDia/2]) simpleChamferedCylinderDoubleEnded(d=w, h=pinCylinderDia, cz=1);
+				tcy([0,0,-sideX/2], d=20, h=sideX);
 			}
 		}
 
@@ -278,17 +286,16 @@ module shackle_spacer_screw()
 			doubleZ() translate([0, upperOffsetY, upperOffsetZ]) rotate([0,90,0]) tcy([0,0,-50], d=3, h=100);
 		}
 
-		// Shackle side cutouts:
-		sideX = 7.4;
-		doubleZ() translate([-sideX/2, -50, tw2]) cube([sideX, 100, 20]);
+		// // Shackle side cutouts:
+		// doubleZ() translate([-sideX/2, -50, tw2]) cube([sideX, 100, 20]);
 
-		// Trim for cylinder around the pin:
-		pinTrimOffsetY = 5.0;
-		doubleZ()
-		{
-			tcu([-100, -200+pinTrimOffsetY, tw2], 200);
-			translate([0,pinTrimOffsetY,tw2+5]) rotate([0,90,0]) tcy([0,0,-50], d=10, h=100, $fn=4);
-		}
+		// // Trim for cylinder around the pin:
+		// pinTrimOffsetY = 5.0;
+		// doubleZ()
+		// {
+		// 	tcu([-100, -200+pinTrimOffsetY, tw2], 200);
+		// 	translate([0,pinTrimOffsetY,tw2+5]) rotate([0,90,0]) tcy([0,0,-50], d=10, h=100, $fn=4);
+		// }
 	}
 }
 
