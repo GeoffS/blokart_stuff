@@ -7,8 +7,8 @@ layerHeight = 0.2;
 makeTwo_mm_line_loop_spacer = false;
 makeShackle_spacer_ziptie = false;
 makeShackle_spacer_nubs = false;
-akeShackle_spacer_screw1 = false;
-akeShackle_spacer_screw2 = false;
+makeShackle_spacer_screw1 = false;
+makeShackle_spacer_screw2 = false;
 makeSpacerDisk = false;
 
 pinDia = 5.4;
@@ -331,8 +331,8 @@ else
 	if(makeTwo_mm_line_loop_spacer) rotate([-90,0,0]) two_mm_line_loop_spacer();
 	if(makeShackle_spacer_ziptie) rotate([-90,0,0]) shackle_spacer_ziptie();
 	if(makeShackle_spacer_nubs) rotate([-90,0,0]) shackle_spacer_nubs();
-	if(akeShackle_spacer_screw1) rotate([0,-90,0]) shackle_spacer_screw1();
-	if(akeShackle_spacer_screw2) rotate([0,90,0]) shackle_spacer_screw2();
+	if(makeShackle_spacer_screw1) rotate([0,-90,0]) shackle_spacer_screw1();
+	if(makeShackle_spacer_screw2) rotate([0,90,0]) shackle_spacer_screw2();
 }
 
 module shackleBodyGhost()
