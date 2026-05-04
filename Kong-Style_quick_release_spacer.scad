@@ -219,7 +219,7 @@ module shackle_spacer_screw1()
 module shackle_spacer_screw2()
 {
 	// Chamfer for flat-head screw.
-	fh = false;
+	fh = true;
 
 	difference()
 	{
