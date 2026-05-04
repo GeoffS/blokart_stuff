@@ -264,14 +264,7 @@ module shackle_spacer_screw()
 			translate([0, spacerTopCtrOffset, 0]) rotate([0,90,0]) difference()
 			{
 				translate([0,0,-pinCylinderDia/2]) simpleChamferedCylinderDoubleEnded(d=w, h=pinCylinderDia, cz=1);
-				difference()
-				{
-					tcy([0,0,-centerX/2], d=25, h=centerX);
-					// MAGIC!!
-					//  -----------vvvv
-					// tcu([-100,-200+4.65,-100], 200);
-					tcu([-100,-200+5.26,-100], 200);
-				}
+				tcy([0,0,-centerX/2], d=25, h=centerX);
 			}
 		}
 
