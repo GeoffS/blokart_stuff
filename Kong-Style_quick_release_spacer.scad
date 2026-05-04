@@ -231,14 +231,14 @@ module shackle_spacer_screw2()
 			d = 3.4;
 			tcy([0,0,-50], d=d, h=100);
 			
-			if(fh) translate([0,0,pinCylinderDia/2-d/2-d/2]) cylinder(d2=10, d1=0, h=5);
+			if(fh) translate([0,0,pinCylinderDia/2-d/2-d/2+0.2]) cylinder(d2=10, d1=0, h=5);
 		}
 	}
 }
 
 module shackle_spacer_screw()
 {
-	centerX = 5; //7.4;
+	centerX = 5.3; //7.4;
 		
 	difference() 
 	{
@@ -291,7 +291,7 @@ module shackle_spacer_screw()
 		}
 				
 		// Notch for latch body:
-		tcu([-10, spacerTopCtrOffset+2, tw2-0.7], 20);
+		tcu([-10, spacerTopCtrOffset+2.6, tw2-0.9], 20);
 	}
 }
 
