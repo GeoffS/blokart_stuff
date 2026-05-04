@@ -260,7 +260,7 @@ module shackle_spacer_screw()
 			}
 		}
 
-		// Slot:
+		// Pin Slot:
 		translate([0,0,-50]) hull()
 		{
 			tcy([0,  0,0], d=pinDia, h=100);
@@ -280,7 +280,15 @@ module shackle_spacer_screw()
 
 		// Shackle side cutouts:
 		sideX = 7.4;
-		doubleZ() translate([-sideX/2, -50, throatWidth/2]) cube([sideX, 100, 20]);
+		doubleZ() translate([-sideX/2, -50, tw2]) cube([sideX, 100, 20]);
+
+		// Trim for cylinder around the pin:
+		pinTrimOffsetY = 5.0;
+		doubleZ()
+		{
+			tcu([-100, -200+pinTrimOffsetY, tw2], 200);
+			translate([0,pinTrimOffsetY,tw2+5]) rotate([0,90,0]) tcy([0,0,-50], d=10, h=100, $fn=4);
+		}
 	}
 }
 
@@ -312,15 +320,15 @@ if(developmentRender)
 	// display() shackle_spacer_ziptie();
 
 	// display() translate([-40, 0, 0]) shackle_spacer_ziptie();
-	display() shackle_spacer_nubs();
+	// display() shackle_spacer_nubs();
 
 	// display() shackle_spacer_screw();
 
-	// display() shackle_spacer_screw1();
-	// display() shackle_spacer_screw2();
+	display() shackle_spacer_screw1();
+	display() shackle_spacer_screw2();
 
 	displayGhost() tcy([0,0,-20], d=pinDia-0.2, h=40);
-	doubleZ() displayGhost() tcy([0,0,tw2], d=11.8, h=sideZ);
+	doubleZ() displayGhost() tcy([0,0,tw2], d=11.9, h=sideZ);
 	displayGhost() shackleBodyGhost();
 
 	// Print orientation:
