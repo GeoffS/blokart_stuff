@@ -20,7 +20,7 @@ lineSlotWidth = 6;
 tw2 = throatWidth/2;
 pd2 = pinDia/2;
 
-pinCylinderDia = 13;
+pinCylinderDia = 14;
 echo(str("pinCylinderDia = ", pinCylinderDia));
 
 spacerTopOffset = 18.0;
@@ -245,7 +245,6 @@ module shackle_spacer_screw()
 		union()
 		{
 			// Slightly wider than the throat.
-			// We'll do a cut later to clear it.
 			w = throatWidth + 2.4;
 
 			// The body that fills the throat:
@@ -285,17 +284,6 @@ module shackle_spacer_screw()
 			translate([0,-10,0]) rotate([0,90,0]) tcy([0,0,-50], d=shackleSlotWidth, h=100);
 			doubleZ() translate([0, upperOffsetY, upperOffsetZ]) rotate([0,90,0]) tcy([0,0,-50], d=3, h=100);
 		}
-
-		// // Shackle side cutouts:
-		// doubleZ() translate([-sideX/2, -50, tw2]) cube([sideX, 100, 20]);
-
-		// // Trim for cylinder around the pin:
-		// pinTrimOffsetY = 5.0;
-		// doubleZ()
-		// {
-		// 	tcu([-100, -200+pinTrimOffsetY, tw2], 200);
-		// 	translate([0,pinTrimOffsetY,tw2+5]) rotate([0,90,0]) tcy([0,0,-50], d=10, h=100, $fn=4);
-		// }
 	}
 }
 
