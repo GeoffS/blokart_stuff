@@ -123,10 +123,11 @@ module shackle_spacer_nubs()
 	numbCtrOffsetY = 7.5;
 
 	// Nubs:
-	doubleX() doubleZ() translate([shackleSideWidth/2, 4.1, throatWidth/2-1]) simpleChamferedCylinder(d=numDia, h=nubHeight+1, cz=nubHeight);
-	doubleX() doubleZ() translate([shackleSideWidth/2, 8.0, throatWidth/2-1]) simpleChamferedCylinder(d=numDia, h=nubHeight+1, cz=nubHeight);
-}
-		
+	cz = nubHeight + 0.1;
+	doubleX() doubleZ() translate([shackleSideWidth/2, 5.3, throatWidth/2-1]) simpleChamferedCylinder(d=numDia, h=nubHeight+1, cz=cz);
+	doubleX() doubleZ() translate([shackleSideWidth/2, 9.2, throatWidth/2-1]) simpleChamferedCylinder(d=numDia, h=nubHeight+1, cz=cz);
+	}
+			
 module shackle_spacer_ziptie()
 {
 	difference()
@@ -311,14 +312,15 @@ if(developmentRender)
 	// display() shackle_spacer_ziptie();
 
 	// display() translate([-40, 0, 0]) shackle_spacer_ziptie();
-	// display() shackle_spacer_nubs();
+	display() shackle_spacer_nubs();
 
 	// display() shackle_spacer_screw();
 
-	display() shackle_spacer_screw1();
-	display() shackle_spacer_screw2();
+	// display() shackle_spacer_screw1();
+	// display() shackle_spacer_screw2();
 
 	displayGhost() tcy([0,0,-20], d=pinDia-0.2, h=40);
+	doubleZ() displayGhost() tcy([0,0,tw2], d=11.8, h=sideZ);
 	displayGhost() shackleBodyGhost();
 
 	// Print orientation:
@@ -335,9 +337,10 @@ else
 	if(makeShackle_spacer_screw2) rotate([0,90,0]) shackle_spacer_screw2();
 }
 
+sideX = 6.82;
+sideZ = 6.5;
 module shackleBodyGhost()
 {
-	sideX = 6.82;
-	sideZ = 6.5;
+	
 	doubleZ() translate([-sideX/2, -4, throatWidth/2]) cube([sideX, 20, sideZ]);
 }
