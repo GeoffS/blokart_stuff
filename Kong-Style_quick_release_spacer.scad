@@ -259,6 +259,7 @@ module shackle_spacer_screw()
 				// Trim below the pin:
 				tcu([-200,-400-pinDia/2+0.5,-200], 400);
 			}
+
 			// Disk above the pin:
 			translate([0, spacerTopCtrOffset, 0]) rotate([0,90,0]) difference()
 			{
@@ -284,6 +285,9 @@ module shackle_spacer_screw()
 			translate([0,-10,0]) rotate([0,90,0]) tcy([0,0,-50], d=shackleSlotWidth, h=100);
 			doubleZ() translate([0, upperOffsetY, upperOffsetZ]) rotate([0,90,0]) tcy([0,0,-50], d=3, h=100);
 		}
+				
+		// Notch for latch body:
+		tcu([-10, spacerTopCtrOffset+1, tw2-0.5], 20);
 	}
 }
 
