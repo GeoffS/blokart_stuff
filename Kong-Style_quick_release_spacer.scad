@@ -238,14 +238,14 @@ module shackle_spacer_screw2()
 
 module shackle_spacer_screw()
 {
-	sideX = 7.4;
+	centerX = 5; //7.4;
 		
 	difference() 
 	{
 		union()
 		{
 			// Slightly wider than the throat.
-			w = throatWidth + 2.4;
+			w = throatWidth + 3.0; //2.4;
 
 			// The body that fills the throat:
 			difference()
@@ -264,9 +264,20 @@ module shackle_spacer_screw()
 			translate([0, spacerTopCtrOffset, 0]) rotate([0,90,0]) difference()
 			{
 				translate([0,0,-pinCylinderDia/2]) simpleChamferedCylinderDoubleEnded(d=w, h=pinCylinderDia, cz=1);
-				tcy([0,0,-sideX/2], d=20, h=sideX);
+				difference()
+				{
+					tcy([0,0,-centerX/2], d=25, h=centerX);
+					// MAGIC!!
+					//  -----------vvvv
+					// tcu([-100,-200+4.65,-100], 200);
+					tcu([-100,-200+5.26,-100], 200);
+				}
 			}
 		}
+
+		// Slots for the side-pieces:
+		sideX = 7.4;
+		doubleZ() translate([-sideX/2, -15, throatWidth/2]) cube([sideX, 60, 30]);
 
 		// Pin Slot:
 		translate([0,0,-50]) hull()
@@ -326,9 +337,9 @@ if(developmentRender)
 	display() shackle_spacer_screw1();
 	display() shackle_spacer_screw2();
 
-	displayGhost() tcy([0,0,-20], d=pinDia-0.2, h=40);
-	doubleZ() displayGhost() tcy([0,0,tw2], d=11.9, h=sideZ);
-	displayGhost() shackleBodyGhost();
+	// displayGhost() tcy([0,0,-20], d=pinDia-0.2, h=40);
+	// doubleZ() displayGhost() tcy([0,0,tw2], d=11.9, h=sideZ);
+	// displayGhost() shackleBodyGhost();
 
 	// Print orientation:
 	// display() translate([-20,0,spacerTop]) rotate([-90,0,0]) two_mm_line_loop_spacer();
