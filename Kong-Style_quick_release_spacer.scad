@@ -199,7 +199,7 @@ module shackle_spacer_screw()
 		}
 				
 		// Notch for latch body:
-		tcu([-10, spacerTopCtrOffset+2.6, tw2-0.9], 20);
+		tcu([-10, spacerTopCtrOffset+2.9, tw2-1.1], 20);
 	}
 }
 
@@ -234,7 +234,7 @@ if(developmentRender)
 
 	display() shackle_spacer_screw1();
 	display() shackle_spacer_screw2();
-	display() translate([-30,0,0]) shackle_spacer_nubs();
+	// display() translate([-30,0,0]) shackle_spacer_nubs();
 
 	// displayGhost() tcy([0,0,-20], d=pinDia-0.2, h=40);
 	// doubleZ() displayGhost() tcy([0,0,tw2], d=11.9, h=sideZ);
