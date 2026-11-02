@@ -1,0 +1,67 @@
+include <../OpenSCAD_Lib/MakeInclude.scad>
+use <../OpenSCAD_Lib/torus.scad>
+include <blokart-pulley-whip-drill-guide/drillLocations.scad>
+
+makeBIL_Tube = false;
+makeCF_Tube = false;
+
+pwOD = 22.2;
+pwID_BIL = 17.4;
+pw_ID_CF = 17.9;
+
+// plugOD = pwID;
+plugID = 6;
+plugInsidePullyWhipLen = 25;
+bottomOutsideChamfer = 2;
+bottomInsideChamfer = 1;
+
+plugTorusOutsideOD = pwOD;
+plugTorusOutsideDia = (plugTorusOutsideOD - plugID)/2;
+plugTorusOutsideRadius = plugTorusOutsideDia/2;
+
+module plug(plugOD)
+{
+  echo(str("plugOD = ", plugOD));
+  difference()
+  {
+    union()
+    {
+      cylinder(d1=plugOD-2*bottomOutsideChamfer, d2=plugOD, h=bottomOutsideChamfer);
+      translate([0,0,bottomOutsideChamfer]) cylinder(d=plugOD, h=plugInsidePullyWhipLen-bottomOutsideChamfer);
+      translate([0,0,plugInsidePullyWhipLen]) difference()
+      {
+        torus3a(plugTorusOutsideOD, plugTorusOutsideDia);
+        translate([-50, -50, plugTorusOutsideRadius*0.9]) cube(100);
+        translate([-50, -50, -100]) cube(100);
+      }
+    }
+    translate([0,0,-10]) cylinder(d=plugID, h=100);
+    d1 = plugID+bottomInsideChamfer+3;
+    translate([0,0,-1]) cylinder(d1=d1, d2=0, h=d1/2);
+
+    // Hole for the screw:
+    plugScrewDrillBitDia = 2.2;
+    translate([0,0,plugInsidePullyWhipLen-plugScrewHoleDistanceFromEnd])
+        rotate([0,90,0])
+        {
+          tcy([0,0,0], d=plugScrewDrillBitDia, h=50);
+          translate([0,0,plugOD/2-plugScrewDrillBitDia/2-0.8]) cylinder(d2=10, d1=0, h=5);
+        }
+  }
+}
+
+module clip(d=0)
+{
+  tc([-200, -400-d, -50], 400);
+}
+
+if(developmentRender)
+{
+    display() plug(pw_ID_CF);
+    display() translate([-40,0,0]) plug(pwID_BIL);
+}
+else
+{
+	if(makeBIL_Tube)rotate([180,0,0]) plug(pwID_BIL);
+  if(makeCF_Tube)rotate([180,0,0]) plug(pw_ID_CF);
+}
