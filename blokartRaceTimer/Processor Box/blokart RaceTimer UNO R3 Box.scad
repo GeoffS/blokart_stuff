@@ -1,5 +1,7 @@
-include <MakeInclude.scad>
-use <torus.scad>
+// include <../../../OpenSCADdesigns/MakeInclude.scad>
+// use <../../../OpenSCADdesigns/torus.scad>
+include <../../../OpenSCAD_Lib/MakeInclude.scad>
+use <../../../OpenSCAD_Lib/torus.scad>
 //$fn=60;
 
 perimeterWidth = 0.4;
