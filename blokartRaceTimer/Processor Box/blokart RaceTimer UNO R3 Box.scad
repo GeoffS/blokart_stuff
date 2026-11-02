@@ -2,7 +2,6 @@
 // use <../../../OpenSCADdesigns/torus.scad>
 include <../../../OpenSCAD_Lib/MakeInclude.scad>
 use <../../../OpenSCAD_Lib/torus.scad>
-//$fn=60;
 
 perimeterWidth = 0.4;
 
@@ -208,20 +207,21 @@ module standoff(pos)
   translate(pos+offset) cylinder(d=standoffOD, h=standoffHeight);
 }
 
-module clip()
+module clip(d=0)
 {
-	//tc([hole1.x, -200, -10], 400);
+	//tc([-200, -400-d, -10], 400);
+  // tc([hole1.x-d, -200, -10], 400);
 }
 
 if(developmentRender)
 {
-	difference()
-	{
-		itemModule();
-		clip();
-	}
+	display() itemModule();
 }
 else
 {
 	itemModule();
 }
+
+firstLayerHeight = 0.2;
+layerHeight = 0.2;
+
