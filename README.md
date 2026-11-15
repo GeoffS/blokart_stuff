@@ -33,3 +33,6 @@ A design for the plug that goes in the end of the puiley whip to use when you ne
 
 ### ThreeButtonKitchenTimerHandlebarMount
 [This directory](ThreeButtonKitchenTimerHandlebarMount) contains a work-in-progress design to mount a common, inexpensive kitchen timer to the blokart handlebar.
+
+### blokart Race Timer
+[This directory](blokartRaceTimer) contains a work-in-progress design for a race-start end finish timer that will mount in/on a standard traffic cone.
