@@ -3,7 +3,7 @@
 // SPDX-FileCopyrightText: 2026 Geoff SObering
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#define TIME_ARRAY_SIZE 5
+#define TIME_ARRAY_SIZE 10
 long pressTime_ms[TIME_ARRAY_SIZE];
 long releaseTime_ms[TIME_ARRAY_SIZE];
 long currentTime_ms = -2;
@@ -12,8 +12,11 @@ int releaseCounter = 0;
 int currentButtonState = HIGH;
 int previousButtonState = HIGH;
 bool done = false;
+bool stop = false;
 
-
+#define HIGH_BUTTON_STATE_ACCUMULATOR_VALUE 10000
+#define LOW_BUTTON_STAT_ACCUMULATOR_VALUE 0
+int currentButtonStateAccumulator = HIGH_BUTTON_STATE_ACCUMULATOR_VALUE;
 
 void setup() {                
   // initialize the digital pin as an output.
@@ -35,7 +38,7 @@ void loop()
 {
   if(done) return;
 
-  if((pressCounter > TIME_ARRAY_SIZE) || (releaseCounter > TIME_ARRAY_SIZE))
+  if((pressCounter > TIME_ARRAY_SIZE) || (releaseCounter > TIME_ARRAY_SIZE) || stop)
   {
     done = true;
     // Display the times:
@@ -58,24 +61,39 @@ void loop()
   }
   else
   {
+    // delay(100);
     currentButtonState = digitalRead(9);
+    if(currentButtonState == HIGH)
+    {
+      currentButtonStateAccumulator++;
+    }
+    else
+    {
+      currentButtonStateAccumulator--;
+    }
     currentTime_ms = millis();
 
     // Serial.print(currentTime_ms);
     // Serial.print(", ");
+    // Serial.print(currentButtonStateAccumulator);
+    // Serial.print(", ");
     // Serial.println(currentButtonState);
 
-    if(currentButtonState == HIGH)
+    if(currentButtonStateAccumulator >= HIGH_BUTTON_STATE_ACCUMULATOR_VALUE)
     {
-      if(previousButtonState != currentButtonState) releaseTime_ms[releaseCounter++] = currentTime_ms;
-      previousButtonState = currentButtonState;
+      currentButtonStateAccumulator = HIGH_BUTTON_STATE_ACCUMULATOR_VALUE;
+      if(previousButtonState != HIGH) releaseTime_ms[releaseCounter++] = currentTime_ms;
+      previousButtonState = HIGH;
       digitalWrite(13, LOW);
     }
-    else // currentButtonState == LOW
+    else if(currentButtonStateAccumulator <= LOW_BUTTON_STAT_ACCUMULATOR_VALUE)
     {
-      if(previousButtonState != currentButtonState) pressTime_ms[pressCounter++] = currentTime_ms;
-      previousButtonState = currentButtonState;
+      currentButtonStateAccumulator = LOW_BUTTON_STAT_ACCUMULATOR_VALUE;
+      if(previousButtonState != LOW) pressTime_ms[pressCounter++] = currentTime_ms;
+      previousButtonState = LOW;
       digitalWrite(13, HIGH);
+
+      // stop = true;
     }
   }
 }
