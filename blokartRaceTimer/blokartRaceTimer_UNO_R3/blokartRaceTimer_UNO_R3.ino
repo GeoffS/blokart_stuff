@@ -3,6 +3,8 @@
 // SPDX-FileCopyrightText: 2026 Geoff SObering
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+#include <TimerOne.h>
+
 #define TIME_ARRAY_SIZE 10
 long pressTime_ms[TIME_ARRAY_SIZE];
 long releaseTime_ms[TIME_ARRAY_SIZE];
@@ -18,6 +20,11 @@ bool stop = false;
 #define LOW_BUTTON_STAT_ACCUMULATOR_VALUE 0
 int currentButtonStateAccumulator = HIGH_BUTTON_STATE_ACCUMULATOR_VALUE;
 
+void timerCallback() 
+{
+   
+}
+
 void setup() {                
   // initialize the digital pin as an output.
   pinMode(13, OUTPUT); //LED on UNO R3  
@@ -30,6 +37,10 @@ void setup() {
     pressTime_ms[i] = -1;
     releaseTime_ms[i] = -1;
   }
+
+  // Intialize a 1ms timer for button debounce.
+  Timer1.initialize(1000); // Set interval in microseconds (1000 µs = 1 ms)
+  Timer1.attachInterrupt(timerCallback);
 }
 
 
