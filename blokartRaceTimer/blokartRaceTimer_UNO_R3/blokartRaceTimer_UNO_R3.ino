@@ -5,18 +5,10 @@
 
 #include <TimerOne.h>
 
-#define TIME_ARRAY_SIZE 10
-long pressTime_ms[TIME_ARRAY_SIZE];
-long releaseTime_ms[TIME_ARRAY_SIZE];
-long currentTime_ms = -2;
-int pressCounter = 0;
-int releaseCounter = 0;
-// int currentButtonState = HIGH;
-int debouncedButtonState = HIGH;
-bool keepLogging = true;
-
 #define HIGH_BUTTON_STATE_ACCUMULATOR_VALUE 50
 #define LOW_BUTTON_STAT_ACCUMULATOR_VALUE 0
+
+int debouncedButtonState =          HIGH;
 int currentButtonStateAccumulator = HIGH_BUTTON_STATE_ACCUMULATOR_VALUE;
 
 void timerCallback() 
@@ -32,18 +24,15 @@ void timerCallback()
       currentButtonStateAccumulator--;
     }
 
-    currentTime_ms = millis();
-
+    // Check to see if the currentButtonStateAccumulator has reached either threhold:
     if(currentButtonStateAccumulator >= HIGH_BUTTON_STATE_ACCUMULATOR_VALUE)
     {
       currentButtonStateAccumulator = HIGH_BUTTON_STATE_ACCUMULATOR_VALUE;
-      if(debouncedButtonState != HIGH) releaseTime_ms[releaseCounter++] = currentTime_ms;
       debouncedButtonState = HIGH;
     }
     else if(currentButtonStateAccumulator <= LOW_BUTTON_STAT_ACCUMULATOR_VALUE)
     {
       currentButtonStateAccumulator = LOW_BUTTON_STAT_ACCUMULATOR_VALUE;
-      if(debouncedButtonState != LOW) pressTime_ms[pressCounter++] = currentTime_ms;
       debouncedButtonState = LOW;
     }
 }
@@ -56,12 +45,6 @@ void setup()
   Serial.begin(9600);
   Serial.println("Hello!");
 
-  for(int i =0; i < TIME_ARRAY_SIZE; i++)
-  {
-    pressTime_ms[i] = -1;
-    releaseTime_ms[i] = -1;
-  }
-
   // Intialize a 1ms timer for button debounce.
   Timer1.initialize(1000); // Set interval in microseconds (1000 µs = 1 ms)
   Timer1.attachInterrupt(timerCallback);
@@ -73,29 +56,4 @@ void loop()
   // Load the LED to reflect the button-state:
   if(debouncedButtonState == HIGH) digitalWrite(13,  LOW);
   else                             digitalWrite(13, HIGH);
-
-  if(keepLogging)
-  {
-    if((pressCounter > TIME_ARRAY_SIZE) || (releaseCounter > TIME_ARRAY_SIZE))
-    {
-      keepLogging = false;
-      // Display the times:
-      Serial.println();
-      Serial.println("--------------");
-      for(int i =0; i < TIME_ARRAY_SIZE; i++)
-      {
-        Serial.print(i);
-        Serial.print(": ");
-        Serial.print(pressTime_ms[i]);
-        Serial.print(", ");
-        Serial.print(releaseTime_ms[i]);
-        Serial.print(", ");
-        Serial.println(releaseTime_ms[i]-pressTime_ms[i]);
-      }
-      Serial.println("Done!");
-      Serial.println();
-      Serial.println();
-      Serial.println();
-    }
-  }
 }
