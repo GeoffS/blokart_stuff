@@ -11,10 +11,9 @@ long releaseTime_ms[TIME_ARRAY_SIZE];
 long currentTime_ms = -2;
 int pressCounter = 0;
 int releaseCounter = 0;
-int currentButtonState = HIGH;
-int previousButtonState = HIGH;
-bool done = false;
-bool stop = false;
+// int currentButtonState = HIGH;
+int debouncedButtonState = HIGH;
+bool keepLogging = true;
 
 #define HIGH_BUTTON_STATE_ACCUMULATOR_VALUE 50
 #define LOW_BUTTON_STAT_ACCUMULATOR_VALUE 0
@@ -22,12 +21,13 @@ int currentButtonStateAccumulator = HIGH_BUTTON_STATE_ACCUMULATOR_VALUE;
 
 void timerCallback() 
 {
-    currentButtonState = digitalRead(9);
-    if(currentButtonState == HIGH)
+    // Update the currentButtonStateAccumulator based on the 
+    // button pin's value:
+    if(digitalRead(9) == HIGH)
     {
       currentButtonStateAccumulator++;
     }
-    else // currentButtonState == LOW
+    else // digitalRead(9) == LOW
     {
       currentButtonStateAccumulator--;
     }
@@ -37,20 +37,19 @@ void timerCallback()
     if(currentButtonStateAccumulator >= HIGH_BUTTON_STATE_ACCUMULATOR_VALUE)
     {
       currentButtonStateAccumulator = HIGH_BUTTON_STATE_ACCUMULATOR_VALUE;
-      if(previousButtonState != HIGH) releaseTime_ms[releaseCounter++] = currentTime_ms;
-      previousButtonState = HIGH;
-      digitalWrite(13, LOW);
+      if(debouncedButtonState != HIGH) releaseTime_ms[releaseCounter++] = currentTime_ms;
+      debouncedButtonState = HIGH;
     }
     else if(currentButtonStateAccumulator <= LOW_BUTTON_STAT_ACCUMULATOR_VALUE)
     {
       currentButtonStateAccumulator = LOW_BUTTON_STAT_ACCUMULATOR_VALUE;
-      if(previousButtonState != LOW) pressTime_ms[pressCounter++] = currentTime_ms;
-      previousButtonState = LOW;
-      digitalWrite(13, HIGH);
+      if(debouncedButtonState != LOW) pressTime_ms[pressCounter++] = currentTime_ms;
+      debouncedButtonState = LOW;
     }
 }
 
-void setup() {                
+void setup() 
+{                
   // initialize the digital pin as an output.
   pinMode(13, OUTPUT); //LED on UNO R3  
   pinMode(9, INPUT_PULLUP);
@@ -68,68 +67,35 @@ void setup() {
   Timer1.attachInterrupt(timerCallback);
 }
 
-
 // the loop routine runs over and over again forever:
 void loop() 
 {
-  if(done) return;
+  // Load the LED to reflect the button-state:
+  if(debouncedButtonState == HIGH) digitalWrite(13,  LOW);
+  else                             digitalWrite(13, HIGH);
 
-  if((pressCounter > TIME_ARRAY_SIZE) || (releaseCounter > TIME_ARRAY_SIZE) || stop)
+  if(keepLogging)
   {
-    done = true;
-    // Display the times:
-    Serial.println();
-    Serial.println("--------------");
-    for(int i =0; i < TIME_ARRAY_SIZE; i++)
+    if((pressCounter > TIME_ARRAY_SIZE) || (releaseCounter > TIME_ARRAY_SIZE))
     {
-      Serial.print(i);
-      Serial.print(": ");
-      Serial.print(pressTime_ms[i]);
-      Serial.print(", ");
-      Serial.print(releaseTime_ms[i]);
-      Serial.print(", ");
-      Serial.println(releaseTime_ms[i]-pressTime_ms[i]);
+      keepLogging = false;
+      // Display the times:
+      Serial.println();
+      Serial.println("--------------");
+      for(int i =0; i < TIME_ARRAY_SIZE; i++)
+      {
+        Serial.print(i);
+        Serial.print(": ");
+        Serial.print(pressTime_ms[i]);
+        Serial.print(", ");
+        Serial.print(releaseTime_ms[i]);
+        Serial.print(", ");
+        Serial.println(releaseTime_ms[i]-pressTime_ms[i]);
+      }
+      Serial.println("Done!");
+      Serial.println();
+      Serial.println();
+      Serial.println();
     }
-    Serial.println("Done!");
-    Serial.println();
-    Serial.println();
-    Serial.println();
   }
-  // else
-  // {
-  //   // delay(100);
-  //   currentButtonState = digitalRead(9);
-  //   if(currentButtonState == HIGH)
-  //   {
-  //     currentButtonStateAccumulator++;
-  //   }
-  //   else
-  //   {
-  //     currentButtonStateAccumulator--;
-  //   }
-  //   currentTime_ms = millis();
-
-  //   // Serial.print(currentTime_ms);
-  //   // Serial.print(", ");
-  //   // Serial.print(currentButtonStateAccumulator);
-  //   // Serial.print(", ");
-  //   // Serial.println(currentButtonState);
-
-  //   if(currentButtonStateAccumulator >= HIGH_BUTTON_STATE_ACCUMULATOR_VALUE)
-  //   {
-  //     currentButtonStateAccumulator = HIGH_BUTTON_STATE_ACCUMULATOR_VALUE;
-  //     if(previousButtonState != HIGH) releaseTime_ms[releaseCounter++] = currentTime_ms;
-  //     previousButtonState = HIGH;
-  //     digitalWrite(13, LOW);
-  //   }
-  //   else if(currentButtonStateAccumulator <= LOW_BUTTON_STAT_ACCUMULATOR_VALUE)
-  //   {
-  //     currentButtonStateAccumulator = LOW_BUTTON_STAT_ACCUMULATOR_VALUE;
-  //     if(previousButtonState != LOW) pressTime_ms[pressCounter++] = currentTime_ms;
-  //     previousButtonState = LOW;
-  //     digitalWrite(13, HIGH);
-
-  //     // stop = true;
-  //   }
-  // }
 }
