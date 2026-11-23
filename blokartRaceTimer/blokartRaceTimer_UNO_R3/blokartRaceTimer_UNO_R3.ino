@@ -16,13 +16,38 @@ int previousButtonState = HIGH;
 bool done = false;
 bool stop = false;
 
-#define HIGH_BUTTON_STATE_ACCUMULATOR_VALUE 10000
+#define HIGH_BUTTON_STATE_ACCUMULATOR_VALUE 50
 #define LOW_BUTTON_STAT_ACCUMULATOR_VALUE 0
 int currentButtonStateAccumulator = HIGH_BUTTON_STATE_ACCUMULATOR_VALUE;
 
 void timerCallback() 
 {
-   
+    currentButtonState = digitalRead(9);
+    if(currentButtonState == HIGH)
+    {
+      currentButtonStateAccumulator++;
+    }
+    else // currentButtonState == LOW
+    {
+      currentButtonStateAccumulator--;
+    }
+
+    currentTime_ms = millis();
+
+    if(currentButtonStateAccumulator >= HIGH_BUTTON_STATE_ACCUMULATOR_VALUE)
+    {
+      currentButtonStateAccumulator = HIGH_BUTTON_STATE_ACCUMULATOR_VALUE;
+      if(previousButtonState != HIGH) releaseTime_ms[releaseCounter++] = currentTime_ms;
+      previousButtonState = HIGH;
+      digitalWrite(13, LOW);
+    }
+    else if(currentButtonStateAccumulator <= LOW_BUTTON_STAT_ACCUMULATOR_VALUE)
+    {
+      currentButtonStateAccumulator = LOW_BUTTON_STAT_ACCUMULATOR_VALUE;
+      if(previousButtonState != LOW) pressTime_ms[pressCounter++] = currentTime_ms;
+      previousButtonState = LOW;
+      digitalWrite(13, HIGH);
+    }
 }
 
 void setup() {                
@@ -70,41 +95,41 @@ void loop()
     Serial.println();
     Serial.println();
   }
-  else
-  {
-    // delay(100);
-    currentButtonState = digitalRead(9);
-    if(currentButtonState == HIGH)
-    {
-      currentButtonStateAccumulator++;
-    }
-    else
-    {
-      currentButtonStateAccumulator--;
-    }
-    currentTime_ms = millis();
+  // else
+  // {
+  //   // delay(100);
+  //   currentButtonState = digitalRead(9);
+  //   if(currentButtonState == HIGH)
+  //   {
+  //     currentButtonStateAccumulator++;
+  //   }
+  //   else
+  //   {
+  //     currentButtonStateAccumulator--;
+  //   }
+  //   currentTime_ms = millis();
 
-    // Serial.print(currentTime_ms);
-    // Serial.print(", ");
-    // Serial.print(currentButtonStateAccumulator);
-    // Serial.print(", ");
-    // Serial.println(currentButtonState);
+  //   // Serial.print(currentTime_ms);
+  //   // Serial.print(", ");
+  //   // Serial.print(currentButtonStateAccumulator);
+  //   // Serial.print(", ");
+  //   // Serial.println(currentButtonState);
 
-    if(currentButtonStateAccumulator >= HIGH_BUTTON_STATE_ACCUMULATOR_VALUE)
-    {
-      currentButtonStateAccumulator = HIGH_BUTTON_STATE_ACCUMULATOR_VALUE;
-      if(previousButtonState != HIGH) releaseTime_ms[releaseCounter++] = currentTime_ms;
-      previousButtonState = HIGH;
-      digitalWrite(13, LOW);
-    }
-    else if(currentButtonStateAccumulator <= LOW_BUTTON_STAT_ACCUMULATOR_VALUE)
-    {
-      currentButtonStateAccumulator = LOW_BUTTON_STAT_ACCUMULATOR_VALUE;
-      if(previousButtonState != LOW) pressTime_ms[pressCounter++] = currentTime_ms;
-      previousButtonState = LOW;
-      digitalWrite(13, HIGH);
+  //   if(currentButtonStateAccumulator >= HIGH_BUTTON_STATE_ACCUMULATOR_VALUE)
+  //   {
+  //     currentButtonStateAccumulator = HIGH_BUTTON_STATE_ACCUMULATOR_VALUE;
+  //     if(previousButtonState != HIGH) releaseTime_ms[releaseCounter++] = currentTime_ms;
+  //     previousButtonState = HIGH;
+  //     digitalWrite(13, LOW);
+  //   }
+  //   else if(currentButtonStateAccumulator <= LOW_BUTTON_STAT_ACCUMULATOR_VALUE)
+  //   {
+  //     currentButtonStateAccumulator = LOW_BUTTON_STAT_ACCUMULATOR_VALUE;
+  //     if(previousButtonState != LOW) pressTime_ms[pressCounter++] = currentTime_ms;
+  //     previousButtonState = LOW;
+  //     digitalWrite(13, HIGH);
 
-      // stop = true;
-    }
-  }
+  //     // stop = true;
+  //   }
+  // }
 }
